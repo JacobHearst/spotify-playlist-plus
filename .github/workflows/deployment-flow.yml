@@ -2,7 +2,7 @@ name: GitHub Pages Deploy
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push events but only for the main branch
+  # Triggers the workflow on push request events but only for the main branch
   push:
     branches: [ main ]
 
@@ -15,12 +15,28 @@ jobs:
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      # GitHub token to allow the action to interact with our repo
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Deploy react app to github pages
-        uses: tanwanimohit/deploy-react-to-ghpages@v1.0.1
+      - name: Setup Node.js 14.15.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15.0
+      - run: yarn install
+      - run: yarn build
 
+      - name: GitHub Pages Deploy
+        uses: crazy-max/ghaction-github-pages@v2.2.0
+        with:
+          # Create incremental commit instead of doing push force
+          keep_history: true # optional, default is false
+          # Build directory to deploy
+          build_dir: build
+          # Allow Jekyll to build your site
+          jekyll: false # optional, default is true
