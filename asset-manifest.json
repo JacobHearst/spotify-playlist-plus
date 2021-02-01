@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/spotify-playlist-plus/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/spotify-playlist-plus/static/js/main.0469628d.chunk.js",
-    "main.js.map": "/spotify-playlist-plus/static/js/main.0469628d.chunk.js.map",
+    "main.js": "/spotify-playlist-plus/static/js/main.fcc60b9a.chunk.js",
+    "main.js.map": "/spotify-playlist-plus/static/js/main.fcc60b9a.chunk.js.map",
     "runtime-main.js": "/spotify-playlist-plus/static/js/runtime-main.5479fc63.js",
     "runtime-main.js.map": "/spotify-playlist-plus/static/js/runtime-main.5479fc63.js.map",
     "static/js/2.6c77d466.chunk.js": "/spotify-playlist-plus/static/js/2.6c77d466.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.5479fc63.js",
     "static/js/2.6c77d466.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.0469628d.chunk.js"
+    "static/js/main.fcc60b9a.chunk.js"
   ]
 }
