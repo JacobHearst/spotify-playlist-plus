@@ -35,5 +35,7 @@ jobs:
           keep_history: true # optional, default is false
           # Build directory to deploy
           build_dir: build
+          # GitHub token to allow the action to interact with our repo
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Allow Jekyll to build your site
           jekyll: false # optional, default is true
