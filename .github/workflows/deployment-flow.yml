@@ -15,6 +15,9 @@ jobs:
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      # GitHub token to allow the action to interact with our repo
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,7 +38,5 @@ jobs:
           keep_history: true # optional, default is false
           # Build directory to deploy
           build_dir: build
-          # GitHub token to allow the action to interact with our repo
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Allow Jekyll to build your site
           jekyll: false # optional, default is true
