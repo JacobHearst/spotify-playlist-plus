@@ -20,5 +20,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - run: yarn deploy
+      - name: Setup Node.js 14.15.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15.0
+      - run: yarn install
+      - run: yarn build
 
