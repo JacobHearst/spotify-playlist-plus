@@ -1,8 +1,23 @@
 import React from "react"
 import { Col, Image, Row } from "react-bootstrap"
+import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 
-export default class PlaylistHeader extends React.Component {
+interface PlaylistHeaderProps {
+    playlist: PlaylistObject
+}
+
+interface PlaylistHeaderState extends PlaylistHeaderProps {}
+
+export default class PlaylistHeader extends React.Component<PlaylistHeaderProps, PlaylistHeaderState> {
+    constructor(props: PlaylistHeaderProps) {
+        super(props)
+        this.state = {
+            ...props
+        }
+    }
+
     render() {
+        let { name, description, owner, tracks } = this.state.playlist
         return (
             <Row>
                 {/* Header */}
@@ -11,10 +26,10 @@ export default class PlaylistHeader extends React.Component {
                     <Image src={"https://placeimg.com/300/300/tech"}/>
                 </Col>
                 <Col>
-                    <h2>Playlist name</h2>
-                    <p>Description</p>
-                    <p>Created by: User</p>
-                    <p>X Songs, N days/hours/minutes</p>
+                    <h2>{name}</h2>
+                    <p>{description}</p>
+                    <p>Owned by: {owner}</p>
+                    <p>{tracks.length} Songs, N days/hours/minutes</p>
                 </Col>
             </Row>
         )

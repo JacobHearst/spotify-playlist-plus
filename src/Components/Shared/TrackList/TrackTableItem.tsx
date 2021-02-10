@@ -18,7 +18,7 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
             <tr>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>
-                <td>Album name</td>
+                <td>{this.state.track.album?.name ?? "No album"}</td>
                 <td>{this.state.track.added_at}</td>
                 <td>{this.state.track.duration_ms}</td>
             </tr>

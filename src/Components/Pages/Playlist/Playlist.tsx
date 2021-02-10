@@ -1,10 +1,24 @@
 import React from "react"
 import { Container } from "react-bootstrap"
+import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import { Track } from "../../../Models/Tracks"
 import PlaylistTrackList from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 
-export default class PlaylistPage extends React.Component {
+interface PlaylistPageProps {
+    playlist: PlaylistObject
+}
+
+interface PlaylistPageState extends PlaylistPageProps { }
+
+export default class PlaylistPage extends React.Component<PlaylistPageProps, PlaylistPageState> {
+    constructor(props: PlaylistPageProps) {
+        super(props)
+        this.state = {
+            ...props
+        }
+    }
+
     render() {
         const mockTrack: Track = {
             track_number: 1,
@@ -21,7 +35,7 @@ export default class PlaylistPage extends React.Component {
 
         return (
             <Container fluid>
-                <PlaylistHeader />
+                <PlaylistHeader playlist={this.state.playlist}/>
                 <PlaylistTrackList tracks={[mockTrack, mockTrack]}/>
             </Container>
         )
