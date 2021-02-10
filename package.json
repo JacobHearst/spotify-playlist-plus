@@ -4,7 +4,9 @@
   "private": false,
   "homepage": "https://jacobhearst.github.io/spotify-playlist-plus/",
   "dependencies": {
+    "bootstrap": "^4.6.0",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
