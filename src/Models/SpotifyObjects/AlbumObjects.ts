@@ -2,16 +2,16 @@ import { ArtistObject, SimplifiedArtistObject } from "./ArtistObjects";
 import { ImageObject } from "./SharedObjects";
 
 enum AlbumType {
-    album="album",
-    single="single",
-    compilation="compilation"
+    Album="album",
+    Single="single",
+    Compilation="compilation"
 }
 
 enum AlbumGroup {
-    album="album",
-    single="single",
-    compilation="compilation",
-    appears_on="appears_on",
+    Album="album",
+    Single="single",
+    Compilation="compilation",
+    AppearsOn="appears_on",
 }
 
 /**

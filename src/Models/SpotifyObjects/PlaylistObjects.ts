@@ -17,7 +17,7 @@ export interface PlaylistObject {
     tracks: PlaylistTrackObject[]
 }
 
-export interface PlaylistTrackObject extends TrackObject {
+export interface PlaylistTrackObject {
     added_at: string
     track: TrackObject
 }

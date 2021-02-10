@@ -17,7 +17,7 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
     }
 
     render() {
-        let { name, description, owner, tracks } = this.state.playlist
+        const { name, description, owner, tracks } = this.state.playlist
         return (
             <Row>
                 {/* Header */}
