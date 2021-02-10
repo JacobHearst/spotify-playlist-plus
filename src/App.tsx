@@ -5,7 +5,19 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 export default class App extends React.Component {
     render() {
+        /*const mockPlaylist: PlaylistObject = {
+            description: "My playlist description",
+            href: "",
+            id: "",
+            images: [],
+            name: "My playlist name",
+            owner: { display_name: "Jacob Hearst", href: "", id: "", images: [] },
+            public: true,
+            tracks: []
+        }*/
+
         return (
+            // <PlaylistPage playlist={mockPlaylist}/>
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />

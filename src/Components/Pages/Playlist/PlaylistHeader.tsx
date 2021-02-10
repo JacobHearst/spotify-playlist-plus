@@ -28,7 +28,7 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
                 <Col>
                     <h2>{name}</h2>
                     <p>{description}</p>
-                    <p>Owned by: {owner}</p>
+                    <p>Owned by: {owner.display_name}</p>
                     <p>{tracks.length} Songs, N days/hours/minutes</p>
                 </Col>
             </Row>

@@ -9,7 +9,7 @@ import { TrackObject } from "./TrackObjects";
 export interface PlaylistObject {
     description: string
     href: string
-    id: Tracing
+    id: string
     images: ImageObject[]
     name: string
     owner: PublicUserObject

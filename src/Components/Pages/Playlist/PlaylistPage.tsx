@@ -4,6 +4,7 @@ import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import { Track } from "../../../Models/Tracks"
 import PlaylistTrackList from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
+import PlaylistZeroState from "./PlaylistZeroState"
 
 interface PlaylistPageProps {
     playlist: PlaylistObject
@@ -27,16 +28,22 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
             duration_ms: 1000,
             explicit: false,
             href: "link",
-            id: "mySong",
+            id: Math.random().toString(),
             is_playable: true,
             name: "My Song",
             popularity: 100
         }
 
+        const mockTrack2 = { ...mockTrack, id: Math.random().toString() }
+
         return (
             <Container fluid>
                 <PlaylistHeader playlist={this.state.playlist}/>
-                <PlaylistTrackList tracks={[mockTrack, mockTrack]}/>
+                {
+                    this.state.playlist.tracks.length > 0
+                        ? <PlaylistTrackList tracks={[mockTrack, mockTrack2]} />
+                        : <PlaylistZeroState/>
+                }
             </Container>
         )
     }

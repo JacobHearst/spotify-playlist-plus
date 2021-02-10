@@ -34,6 +34,8 @@
         "semi": [
             "warn",
             "never"
-        ]
+        ],
+        "no-unused-vars": "warn",
+        "prefer-const": "warn"
     }
 }
