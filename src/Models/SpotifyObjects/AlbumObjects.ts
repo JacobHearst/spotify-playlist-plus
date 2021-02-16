@@ -1,8 +1,7 @@
 import { ArtistObject, SimplifiedArtistObject } from "./ArtistObjects";
 import { ImageObject } from "./SharedObjects";
-import { TrackObject } from "./TrackObjects"
 
-export enum AlbumType {
+enum AlbumType {
     Album="album",
     Single="single",
     Compilation="compilation"
@@ -20,26 +19,25 @@ enum AlbumGroup {
  */
 
 export interface AlbumObject {
-    album_type: AlbumType,
-    artists: ArtistObject[],
-    genres: string[],
-    href: string,
-    id: string,
-    images: ImageObject[],
-    label: string,
-    name: string,
-    popularity: number,
-    tracks: TrackObject[],
+    album_type: AlbumType
+    artists: ArtistObject[]
+    genres: string[]
+    href: string
+    id: string
+    images: ImageObject[]
+    label: string
+    name: string
+    popularity: number
     release_date: string
 }
 
 export interface SimplifiedAlbumObject {
-    album_group: AlbumGroup,
-    album_type: AlbumType,
-    artists: SimplifiedArtistObject[],
-    id: string,
-    images: ImageObject[],
-    name: string,
+    album_group: AlbumGroup
+    album_type: AlbumType
+    artists: SimplifiedArtistObject[]
+    id: string
+    images: ImageObject[]
+    name: string
     release_date: string
 
 }
