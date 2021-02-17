@@ -1,6 +1,6 @@
 import React from "react"
 import Navbar from "./Navbar"
-import { authEndpoint, clientId, redirectUri, scopes } from "../../Constants/Constants"
+import { authEndpoint, clientId, redirectUri } from "../../Constants/Constants"
 //to view Spotify login API steps head to: https://developer.spotify.com/documentation/general/guides/authorization-guide/
 export default function LandingPage() {
     return (
