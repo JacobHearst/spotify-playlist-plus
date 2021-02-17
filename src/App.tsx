@@ -9,7 +9,6 @@ import LandingPage from "./Components/Shared/LandingPage"
 export default class App extends React.Component {
     render() {
         const pageURL = "/spotify-playlist-plus"
-       
         return ( 
             <main>
                 <Switch>
