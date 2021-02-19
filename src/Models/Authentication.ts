@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 // all possible authentication properties that can be returned
 export interface AuthenticationObject {
