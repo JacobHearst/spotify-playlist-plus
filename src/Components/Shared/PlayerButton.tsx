@@ -19,7 +19,7 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
     }
 
     playerButtonClicked() {
-        this.state.currentlyPlaying ? PlayerEndpoints.pause : PlayerEndpoints.startResume
+        this.state.currentlyPlaying ? PlayerEndpoints.pause() : PlayerEndpoints.startResume()
 
         this.setState({
             currentlyPlaying: !this.state.currentlyPlaying,
