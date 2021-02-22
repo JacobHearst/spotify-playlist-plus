@@ -1,10 +1,10 @@
 import React from "react"
 import { Table } from "react-bootstrap"
-import { Track } from "../../../Models/Tracks"
+import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import TrackTableItem from "./TrackTableItem"
 
 interface TrackTableProps {
-    tracks: Track[]
+    tracks?: TrackObject[]
 }
 
 interface TrackTableState extends TrackTableProps {}
@@ -20,15 +20,17 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
             <Table hover>
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th></th>
                         <th>Title</th>
+                        <th>Artist(s)</th>
                         <th>Album</th>
-                        <th>Date added</th>
                         <th>Duration (ms)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.tracks.map((track) => (<TrackTableItem key={track.id} track={track}/>)) }
+                    { this.state.tracks
+                        ? this.state.tracks.map((track) => (<TrackTableItem key={track.id} track={track}/>))
+                        : <tr>Loading tracks</tr>}
                 </tbody>
             </Table>
         )
