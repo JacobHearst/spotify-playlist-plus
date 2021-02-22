@@ -24,7 +24,7 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                         <th>Title</th>
                         <th>Artist(s)</th>
                         <th>Album</th>
-                        <th>Duration (ms)</th>
+                        <th>Duration</th>
                     </tr>
                 </thead>
                 <tbody>
