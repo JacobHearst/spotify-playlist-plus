@@ -1,6 +1,7 @@
 import React from "react"
 import { Col, Image, Row } from "react-bootstrap"
 import { Container } from "react-bootstrap"
+import Carousel from "react-bootstrap/Carousel"
 
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 
@@ -20,15 +21,17 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
 
     render() {
         const { genres, href, id, images, name, popularity } = this.state.artist
-        const artistImages = images.map((image, index) => {
-            return <Image src={image.url} key={index} className="artistImage"></Image>
+        const carouselItems = images.map((image, index) => {
+            return (
+                <Carousel.Item interval={1000}>
+                    <Image src={image.url} key={index} fluid></Image>
+                </Carousel.Item>
+            )
         })
 
         return (
             <Container>
-                <Row>
-                    <div className="artistImageCollage">{artistImages}</div>
-                </Row>
+                <Carousel fade={true}>{carouselItems}</Carousel>
                 <Row>
                     <h2>{name}</h2>
                 </Row>
