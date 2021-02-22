@@ -19,6 +19,6 @@ export interface PlaylistObject {
 
 export interface PlaylistTrackObject {
     added_at: string,
-    added_by: string,
+    added_by: PublicUserObject,
     track: TrackObject
 }
