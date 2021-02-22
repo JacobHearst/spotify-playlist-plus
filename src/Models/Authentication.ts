@@ -1,16 +1,25 @@
 import React from "react"
 
-// all possible authentication properties that can be returned
-export interface AuthenticationObject {
-    access_token?: string,
-    token_type?: string,
-    scope?: string,
-    expires_in?: number,
-    refresh_token?: string
+export class TokenWatcher {
+    currentToken: string
+    token_type: string
+    expires_in: number
+
+    constructor(currentToken: string, token_type: string, expires_in: number) {
+        this.currentToken = currentToken
+        this.token_type = token_type
+        this.expires_in = expires_in
+        this.startWatching()
+    }
+
+    startWatching() {
+        console.log("Watching token")
+    }
 }
 
 export interface AuthenticationContextObject {
-    authObj : AuthenticationObject,
+    tokenWatcher?: TokenWatcher,
+    logOut: () => void
 }
 
 export const AuthenticationContext = React.createContext<AuthenticationContextObject | undefined>(undefined)

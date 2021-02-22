@@ -1,8 +1,10 @@
 import React from "react"
-import { Track } from "../../../Models/Tracks"
+import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
+import { msToTimestamp } from "../../../Services/Utility"
+import PlayerButton from "../PlayerButton"
 
 interface TrackTableItemProps {
-    track: Track
+    track: TrackObject
 }
 
 interface TrackTableItemState extends TrackTableItemProps {}
@@ -14,13 +16,14 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
     }
 
     render() {
+        const artistNames = this.state.track.artists.map(artist => artist.name).join(", ")
         return (
             <tr>
-                <td>{this.state.track.track_number}</td>
+                <td><PlayerButton currentlyPlaying={false}>&#21E8</PlayerButton></td>
                 <td>{this.state.track.name}</td>
+                <td>{artistNames}</td>
                 <td>{this.state.track.album?.name ?? "No album"}</td>
-                <td>{this.state.track.added_at}</td>
-                <td>{this.state.track.duration_ms}</td>
+                <td>{msToTimestamp(this.state.track.duration_ms)}</td>
             </tr>
         )
     }
