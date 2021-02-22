@@ -17,7 +17,7 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
     render() {
         return (
             <tr>
-                <PlayerButton currentlyPlaying={false}>&#21E8</PlayerButton>
+                <PlayerButton currentlyPlaying={false}></PlayerButton>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>
                 <td>{this.state.track.album?.name ?? "No album"}</td>

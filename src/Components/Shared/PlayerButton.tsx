@@ -29,7 +29,7 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
     render() {
         return (
             <Button variant="outline-dark" onClick={this.playerButtonClicked}>
-                &{this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
+                {this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
             </Button>
         )
     }

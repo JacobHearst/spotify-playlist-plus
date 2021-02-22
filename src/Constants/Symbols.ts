@@ -1,6 +1,6 @@
 export enum TrackSymbols {
-    Play = "#9654",
-    Pause = "#9208",
-    Next = "#5861",
-    Previous = "#5862"
+    Play = "\\u#9654",
+    Pause = "\\u#9208",
+    Next = "\\u#5861",
+    Previous = "\\u#5862"
 }
