@@ -1,51 +1,57 @@
 import React from "react"
 import { Container } from "react-bootstrap"
+import { match } from "react-router-dom"
+import { getPlaylist } from "../../../Services/PlaylistService"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
-//import { Track } from "../../../Models/Tracks"
 import Navbar from "../../Shared/Navbar"
-// import PlaylistTrackList from "../../Shared/TrackList/TrackTable"
-// import PlaylistHeader from "./PlaylistHeader"
-// import PlaylistZeroState from "./PlaylistZeroState"
+import TrackTable from "../../Shared/TrackList/TrackTable"
+import PlaylistHeader from "./PlaylistHeader"
+import PlaylistZeroState from "./PlaylistZeroState"
 
 interface PlaylistPageProps {
-    playlist: PlaylistObject
+    match: match<{id: string}>
 }
 
-interface PlaylistPageState extends PlaylistPageProps { }
+interface PlaylistPageState {
+    playlistId: string,
+    playlist?: PlaylistObject
+}
 
 export default class PlaylistPage extends React.Component<PlaylistPageProps, PlaylistPageState> {
     constructor(props: PlaylistPageProps) {
         super(props)
         this.state = {
-            ...props
+            playlistId: props.match.params.id
         }
+
+        this.loadPlaylist = this.loadPlaylist.bind(this)
+        this.loadPlaylist()
+    }
+
+    loadPlaylist() {
+        console.log("Loading playlist")
+        getPlaylist(this.state.playlistId).then((playlist) => {
+            if (playlist) {
+                this.setState({ ...this.state, playlist })
+            } else {
+                // Error happened, check console. In future, display error to user?
+            }
+        })
     }
 
     render() {
-        // const mockTrack: Track = {
-        //     track_number: 1,
-        //     added_at: "2/10/2021",
-        //     artists: [],
-        //     duration_ms: 1000,
-        //     explicit: false,
-        //     href: "link",
-        //     id: Math.random().toString(),
-        //     is_playable: true,
-        //     name: "My Song",
-        //     popularity: 100
-        // }
-
-        //const mockTrack2 = { ...mockTrack, id: Math.random().toString() }
+        if (!this.state.playlist) {
+            return (<PlaylistZeroState/>)
+        }
+        
+        // Extract the TrackObjects from the PlaylistTrackObjects
+        const tracks = this.state.playlist.tracks.map(({ track }) => track)
 
         return (
             <Container fluid>
                 <Navbar/>
-                {/* <PlaylistHeader playlist={this.state.playlist}/>
-                {
-                    this.state.playlist.tracks.length > 0
-                        ? <PlaylistTrackList tracks={[mockTrack, mockTrack2]} />
-                        : <PlaylistZeroState/>
-                } */}
+                <PlaylistHeader playlist={this.state.playlist}/>
+                <TrackTable tracks={tracks} />
             </Container>
         )
     }
