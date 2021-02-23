@@ -16,4 +16,4 @@ const dev = {
 //     "user-read-playback-state",
 // ]
 
-export const config = process.env.NODE_ENV == 'development' ? dev : prod
+export const config = process.env.NODE_ENV == "development" ? dev : prod
