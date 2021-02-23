@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { authEndpoint, clientId, redirectUri } from "../../Constants/Constants"
+import { authEndpoint, clientId, config } from "../../Constants/Constants"
 
 export default function LandingPage() {
     return (
@@ -13,7 +13,7 @@ export default function LandingPage() {
 // We're using the Implicit Grant flow
 function logInButton(): ReactNode {
     return (
-        <a href={authEndpoint + "?client_id=" + clientId + "&response_type=token&redirect_uri=" + redirectUri}>
+        <a href={authEndpoint + "?client_id=" + clientId + "&response_type=token&redirect_uri=" + config.redirectUri}>
             <button>Spotify Login</button>
         </a>
     )
