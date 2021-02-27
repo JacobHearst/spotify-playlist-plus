@@ -1,31 +1,38 @@
 /**
  * Convert a length of time in ms to a sentence
  * Ex: 1 Day, 3 Hours, 12 Minutes
- */ 
+ */
 export function msToSentence(ms: number) {
-    const seconds = Math.floor(ms / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
+    const msInDay = 86400000
+    const msInHour = msInDay / 24
+    const msInMinute = msInHour / 60
 
-    const label: string[] = []
+    const labelParts: string[] = []
+    const pluralize = (count: number) => count > 1 ? "s" : ""
+    const days = Math.floor(ms / msInDay)
     if (days > 0) {
-        label.push(`${days} Days`)
+        labelParts.push(`${days} Day${pluralize(days)}`)
     }
 
+    let remainder = ms % msInDay
+    const hours = Math.floor(remainder / msInHour)
     if (hours > 0) {
-        label.push(`${hours % 24} Hours`)
+        labelParts.push(`${hours % 24} Hour${pluralize(hours)}`)
     }
-
+    
+    remainder = remainder % msInHour
+    const minutes = Math.floor(remainder / msInMinute)
     if (minutes > 0) {
-        label.push(`${minutes % 60} Minutes`)
+        labelParts.push(`${minutes % 60} Minute${pluralize(minutes)}`)
     }
 
-    if (label.length == 0) {
-        label.push(`${seconds} Seconds`)
+    remainder = remainder % msInMinute
+    const seconds = Math.floor(remainder / 1000)
+    if (labelParts.length == 0 && seconds > 0) {
+        labelParts.push(`${seconds} Second${pluralize(seconds)}`)
     }
 
-    return label.join(", ")
+    return labelParts.join(", ")
 }
 
 export function msToTimestamp(ms: number) {

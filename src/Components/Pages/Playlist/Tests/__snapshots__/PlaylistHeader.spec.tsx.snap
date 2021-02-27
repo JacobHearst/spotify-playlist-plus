@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlaylistHeader should display a loading message when no playlist is passed in 1`] = `
+<p>
+  Loading
+</p>
+`;
+
+exports[`PlaylistHeader should properly display playlist information when a playlist is passed in 1`] = `
+<div
+  className="row"
+  style={
+    Object {
+      "marginBottom": 15,
+    }
+  }
+>
+  <div
+    className="col-auto"
+  >
+    <img
+      className=""
+      height={250}
+      src="https://spotify.com"
+      style={
+        Object {
+          "border": "1px solid black",
+        }
+      }
+      width={250}
+    />
+  </div>
+  <div
+    className="col"
+  >
+    <h2>
+      My Playlist
+    </h2>
+    <p>
+      My description
+    </p>
+    <p>
+      Owned by: 
+      My user
+    </p>
+    <p>
+      0
+       Songs. 
+      
+    </p>
+  </div>
+</div>
+`;
