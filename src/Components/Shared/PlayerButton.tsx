@@ -16,6 +16,8 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
         this.state = {
             ...props,
         }
+
+        this.playerButtonClicked = this.playerButtonClicked.bind(this)
     }
 
     playerButtonClicked() {
