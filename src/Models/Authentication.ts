@@ -4,11 +4,13 @@ export class TokenWatcher {
     currentToken: string
     token_type: string
     expires_in: number
+    refresh_token: string
 
-    constructor(currentToken: string, token_type: string, expires_in: number) {
+    constructor(currentToken: string, token_type: string, expires_in: number, refresh_token: string) {
         this.currentToken = currentToken
         this.token_type = token_type
         this.expires_in = expires_in
+        this.refresh_token = refresh_token
         this.startWatching()
     }
 
@@ -17,9 +19,15 @@ export class TokenWatcher {
     }
 }
 
+export interface TokenRetriever {
+    verifier: string,
+    redirect_url: string
+}
+
 export interface AuthenticationContextObject {
     tokenWatcher?: TokenWatcher,
-    logOut: () => void
+    tokenRetriever?: TokenRetriever,
+    logOut?: () => void
 }
 
 export const AuthenticationContext = React.createContext<AuthenticationContextObject | undefined>(undefined)
