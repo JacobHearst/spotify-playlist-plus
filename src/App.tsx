@@ -81,7 +81,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
     }
 }
 
-function GetVerifierCookie(): string | undefined {
+export function GetVerifierCookie(): string | undefined {
     // document.cookie is a 'string' representation of the cookies, seperated by '; '
     const cookies = document.cookie.split("; ") // # yum
 
