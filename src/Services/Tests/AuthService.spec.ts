@@ -1,7 +1,7 @@
 /* global global */
 
 import { GetVerifierCookie } from "../../App"
-import * as Retriever from "../TokenRetrievalService"
+import * as Retriever from "../AuthService"
 
 const crypto = require("crypto")
 

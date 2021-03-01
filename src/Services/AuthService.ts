@@ -1,5 +1,6 @@
 import { authEndpoint, clientId, redirectUri } from "../Constants/Constants"
 import { getAuthenticationTokenFromCode } from "../Endpoints/Authorization"
+import { AuthToken } from "../Models/Authentication"
 
 // Service used for retrieval of athorization. Maybe could've made a class for this? 
 
@@ -80,4 +81,9 @@ function base64urlencode(hash: ArrayBuffer) {
     // replace '+' with '-', '/' with '_', and remove '=' at end for url safety
     return btoa(String.fromCharCode.apply(null, values as unknown as number[]))
         .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+}
+
+export async function watchToken(token: AuthToken) {
+    // Set up a timer to refresh the token before it expires
+    console.log(token) // so typescript shuts up
 }
