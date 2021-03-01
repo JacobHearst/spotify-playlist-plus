@@ -18,8 +18,6 @@ function logInButton(): ReactNode {
                 let href = undefined
                 if (context && context.tokenRetriever) {
                     href = context.tokenRetriever.redirect_url
-                } else {
-                    console.log("Context: ", context)
                 }
 
                 return (
