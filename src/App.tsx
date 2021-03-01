@@ -8,14 +8,14 @@ import LandingPage from "./Components/Shared/LandingPage"
 import { AuthenticationContext, AuthenticationContextObject, TokenRetriever } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
-import { createCodeVerifierCookie, constructAuthorizationURI, exchangeCodeForToken } from "./Services/AuthService"
+import PKCEAuthentication from "./Services/AuthService"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
         super(props)
 
         // get cookie or create a new one
-        const verifier = GetVerifierCookie() ?? createCodeVerifierCookie()
+        const verifier = PKCEAuthentication.getVerifierCookie() ?? PKCEAuthentication.createCodeVerifierCookie()
 
         // try and get authorization code from url
         const code = new URLSearchParams(window.location.search).get("code")
@@ -23,16 +23,16 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         // havn't redirected yet/ need to do first step of authorization
         if (!code) {
             // force reload component when we actually get the redirect url for the log in button
-            constructAuthorizationURI(verifier).then((url) => {
+            PKCEAuthentication.constructAuthorizationURI(verifier).then((url) => {
                 const tokenRetriever: TokenRetriever = {
                     redirect_url: url,
                     verifier: verifier,
                 }
 
-                this.setState({ ...this.state, tokenRetriever})
+                this.setState({ ...this.state, tokenRetriever })
             })
         } else {
-            exchangeCodeForToken(code, verifier).then((authToken) => {
+            PKCEAuthentication.exchangeCodeForToken(code, verifier).then((authToken) => {
                 if (authToken) {
                     const newState = { ...this.state, authToken }
                     this.setState(newState)
@@ -44,7 +44,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         this.state = {
             logOut: () => {
                 this.setState({ ...this.state, authToken: undefined })
-            }
+            },
         }
     }
 
@@ -70,15 +70,4 @@ export default class App extends React.Component<{}, AuthenticationContextObject
             </main>
         )
     }
-}
-
-export function GetVerifierCookie(): string | undefined {
-    // document.cookie is a 'string' representation of the cookies, seperated by '; '
-    const cookies = document.cookie.split("; ") // # yum
-
-    // find the cookie that starts with code_verifier
-    const verifier = cookies.filter((cookie) => cookie.startsWith("code_verifier"))
-
-    // if it exists, return it
-    return verifier.length > 0 ? verifier[0].split("=")[1] : undefined
 }

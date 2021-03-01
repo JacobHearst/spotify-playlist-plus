@@ -19,7 +19,9 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
         const artistNames = this.state.track.artists.map((artist) => artist.name).join(", ")
         return (
             <tr>
-                <PlayerButton currentlyPlaying={false}></PlayerButton>
+                <td>
+                    <PlayerButton currentlyPlaying={false}></PlayerButton>
+                </td>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>
                 <td>{artistNames}</td>

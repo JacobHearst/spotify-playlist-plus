@@ -1,89 +1,121 @@
 import { authEndpoint, clientId, redirectUri } from "../Constants/Constants"
-import { getAuthenticationTokenFromCode } from "../Endpoints/Authorization"
+import { getAuthenticationToken } from "../Endpoints/Authorization"
 import { AuthToken } from "../Models/Authentication"
+import { GetTokenRequest } from "../Models/Requests/AuthenticationRequests"
 
-// Service used for retrieval of athorization. Maybe could've made a class for this? 
+// class that handles all authentication
+export default class PKCEAuthentication {
+    constructor() {}
 
-// creates a new cookie for the code verifier and returns it
-export function createCodeVerifierCookie(): string {
-    const verifier = randomString()
-    document.cookie = `code_verifier=${verifier}`
+    // ########################## Cookie Creation / Retrival ###############################
+    static createCodeVerifierCookie(): string {
+        const verifier = this.randomString()
+        document.cookie = `code_verifier=${verifier}`
 
-    return verifier
-}
-
-// middle man function for exchanging code for token. 
-// Success: will return a new TokenWatcher obj
-// Fail: will return undefined
-export function exchangeCodeForToken(code: string, verifier: string) {      
-    const data = {
-        client_id: clientId,
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: redirectUri,
-        code_verifier: verifier
-    } 
-
-    return getAuthenticationTokenFromCode(data)
-} 
-
-// Creates and returns URL for step 1 of PKCE authorization
-export async function constructAuthorizationURI(verifier: string): Promise<string> {
-    let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`
-
-    const hash = await sha256(verifier)
-    const code_challenge = base64urlencode(hash)
-
-    url += `&code_challenge_method=S256&code_challenge=${code_challenge}`
-
-    return url
-}   
-
-// generates a cryptographic random string 
-function randomString() : string {
-    let randomString : string = ""
-
-    // has to be between 43 - 128 according to spotify
-    const minCharacters = 43
-
-    // initalize array of length 43 and generate random values
-    const randomNumbers = new Uint8Array(minCharacters)
-    window.crypto.getRandomValues(randomNumbers)
-
-    // possible characters [A-Z], [a-z], [0-9]
-    // could also include certain characters if we wanted to make it even more secure 
-    const possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-
-    // going to need to convert bytes to value between 0 - possibleCharcters.length
-    const byteLength = 256
-    const offset = byteLength / possibleCharacters.length
-
-    for (var i = 0; i < minCharacters; i++) {
-        randomString += possibleCharacters[Math.floor(Math.abs(randomNumbers[i]) / offset)]
+        return verifier
     }
 
-    return randomString
-}
+    static getVerifierCookie(): string | undefined {
+        // document.cookie is a 'string' representation of the cookies, seperated by '; '
+        const cookies = document.cookie.split("; ") // # yum
+    
+        // find the cookie that starts with code_verifier
+        const verifier = cookies.filter((cookie) => cookie.startsWith("code_verifier"))
+    
+        // if it exists, return it
+        return verifier.length > 0 ? verifier[0].split("=")[1] : undefined
+    }
+    // ####################################################################################
 
-// returns raw bytes of sha256 hashed string
-function sha256(verifier: string) {
-    const encoder = new TextEncoder()
-    const data = encoder.encode(verifier)
-  
-    return window.crypto.subtle.digest("SHA-256", data)
-}
 
-// returns a base64 encoded string from array buffer
-function base64urlencode(hash: ArrayBuffer) {
-    const values : Uint8Array = new Uint8Array(hash)
+    // ############## Verifier / Authorization URL Creation ##############################
+    static async constructAuthorizationURI(verifier: string): Promise<string> {
+        let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`
 
-    // return encoded string
-    // replace '+' with '-', '/' with '_', and remove '=' at end for url safety
-    return btoa(String.fromCharCode.apply(null, values as unknown as number[]))
-        .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
-}
+        const hash = await this.sha256(verifier)
+        const code_challenge = this.base64urlencode(hash)
 
-export async function watchToken(token: AuthToken) {
-    // Set up a timer to refresh the token before it expires
-    console.log(token) // so typescript shuts up
+        url += `&code_challenge_method=S256&code_challenge=${code_challenge}`
+
+        return url
+    }  
+
+    static randomString() : string {
+        let randomString : string = ""
+
+        // has to be between 43 - 128 according to spotify
+        const minCharacters = 43
+
+        // initalize array of length 43 and generate random values
+        const randomNumbers = new Uint8Array(minCharacters)
+        window.crypto.getRandomValues(randomNumbers)
+
+        // possible characters [A-Z], [a-z], [0-9]
+        // could also include certain characters if we wanted to make it even more secure 
+        const possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+        // going to need to convert bytes to value between 0 - possibleCharcters.length
+        const byteLength = 256
+        const offset = byteLength / possibleCharacters.length
+
+        for (var i = 0; i < minCharacters; i++) {
+            randomString += possibleCharacters[Math.floor(Math.abs(randomNumbers[i]) / offset)]
+        }
+
+        return randomString
+    }
+
+    static sha256(verifier: string) {
+        const encoder = new TextEncoder()
+        const data = encoder.encode(verifier)
+    
+        return window.crypto.subtle.digest("SHA-256", data)
+    }
+
+    static base64urlencode(hash: ArrayBuffer) {
+        const values : Uint8Array = new Uint8Array(hash)
+
+        // return encoded string
+        // replace '+' with '-', '/' with '_', and remove '=' at end for url safety
+        return btoa(String.fromCharCode.apply(null, values as unknown as number[]))
+            .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+    }
+
+    // ###############################################################################################
+
+
+    // ########################### Token Retrievers ##################################################
+    static async watchToken(token: AuthToken) {
+        const timeBeforeExpires = 5000
+        return new Promise((resolve, reject) => {
+            const interval = setInterval(async () => {
+                const newToken: AuthToken | undefined = await getAuthenticationToken({
+                    grant_type: "refresh_token",
+                    refresh_token: token.refresh_token,
+                    client_id: clientId
+                })
+
+                if (newToken) {
+                    resolve(newToken)
+                    clearInterval(interval)
+                }
+
+                reject("Times up")
+            }, token.expires_in - timeBeforeExpires)
+        })
+    }
+
+    static exchangeCodeForToken(code: string, verifier: string) {      
+        const data : GetTokenRequest = {
+            client_id: clientId,
+            grant_type: "authorization_code",
+            code: code,
+            redirect_uri: redirectUri,
+            code_verifier: verifier
+        } 
+
+        return getAuthenticationToken(data)
+    } 
+
+    // ###############################################################################################
 }
