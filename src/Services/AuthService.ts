@@ -85,4 +85,5 @@ function base64urlencode(hash: ArrayBuffer) {
 
 export async function watchToken(token: AuthToken) {
     // Set up a timer to refresh the token before it expires
+    console.log(token) // so typescript shuts up
 }
