@@ -1,22 +1,10 @@
 import React from "react"
 
-export class TokenWatcher {
-    currentToken: string
+export interface AuthToken {
+    access_token: string
     token_type: string
     expires_in: number
     refresh_token: string
-
-    constructor(currentToken: string, token_type: string, expires_in: number, refresh_token: string) {
-        this.currentToken = currentToken
-        this.token_type = token_type
-        this.expires_in = expires_in
-        this.refresh_token = refresh_token
-        this.startWatching()
-    }
-
-    startWatching() {
-        console.log("Watching token")
-    }
 }
 
 export interface TokenRetriever {
@@ -25,7 +13,7 @@ export interface TokenRetriever {
 }
 
 export interface AuthenticationContextObject {
-    tokenWatcher?: TokenWatcher,
+    authToken?: AuthToken,
     tokenRetriever?: TokenRetriever,
     logOut?: () => void
 }

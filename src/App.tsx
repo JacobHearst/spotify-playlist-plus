@@ -8,7 +8,7 @@ import LandingPage from "./Components/Shared/LandingPage"
 import { AuthenticationContext, AuthenticationContextObject, TokenRetriever } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
-import { createCodeVerifierCookie, constructAuthorizationURI, exchangeCodeForToken } from "./Services/TokenRetrievalService"
+import { createCodeVerifierCookie, constructAuthorizationURI, exchangeCodeForToken } from "./Services/AuthService"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -20,48 +20,39 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         // try and get authorization code from url
         const code = new URLSearchParams(window.location.search).get("code")
 
-        // SOS. This makes me want to KMS
         // havn't redirected yet/ need to do first step of authorization
         if (!code) {
-            if (!this.state) {
-                // temp variable just used to cause a force relod
-                const r: TokenRetriever = {
-                    redirect_url: "",
+            // force reload component when we actually get the redirect url for the log in button
+            constructAuthorizationURI(verifier).then((url) => {
+                const tokenRetriever: TokenRetriever = {
+                    redirect_url: url,
                     verifier: verifier,
                 }
 
-                // force reload component when we actually get the redirect url for the log in button
-                constructAuthorizationURI(verifier).then((url) => {
-                    r.redirect_url = url
-                    this.setState({ ...this.state, tokenRetriever: r })
-                })
-            }
+                this.setState({ ...this.state, tokenRetriever})
+            })
         } else {
-            exchangeCodeForToken(code, verifier).then((watcher) => {
-                if (watcher) {
-                    this.setState({
-                        ...this.state,
-                        tokenWatcher: watcher,
-                    })
+            exchangeCodeForToken(code, verifier).then((authToken) => {
+                if (authToken) {
+                    const newState = { ...this.state, authToken }
+                    this.setState(newState)
+                    initAxios(newState)
                 }
             })
         }
 
-        const authContext: AuthenticationContextObject = {
+        this.state = {
             logOut: () => {
-                this.setState({ ...this.state, tokenWatcher: undefined })
-            },
+                this.setState({ ...this.state, authToken: undefined })
+            }
         }
-
-        this.state = authContext
-        initAxios(authContext)
     }
 
     render() {
         const pageURL = "/spotify-playlist-plus"
 
         let landingElement = LandingPage()
-        if (this.state.tokenWatcher) {
+        if (this.state.authToken) {
             landingElement = <HomePage />
         }
 

@@ -1,20 +1,13 @@
-import { TokenWatcher } from "../Models/Authentication"
-const axios = require("axios")
+import { AuthToken } from "../Models/Authentication"
+import axios from "axios"
 
-export async function getAuthenticationTokenFromCode(data : any): Promise<TokenWatcher | undefined> {
-    let watcher = <TokenWatcher>{}
-
-    await axios.post("https://accounts.spotify.com/api/token", null, {
+export async function getAuthenticationTokenFromCode(data: any): Promise<AuthToken | undefined> {
+    const response = await axios.post("https://accounts.spotify.com/api/token", null, {
         params: data,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
     })
-        .then((response : any) => {            
-            watcher = {
-                ...response.data
-            }
-        })
-    
-    return watcher
+
+    return response.data
 }
