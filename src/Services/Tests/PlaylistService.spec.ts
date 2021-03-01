@@ -38,7 +38,7 @@ describe("Playlist service", () => {
     }
 
     describe("getPlaylist", () => {
-        it("Returns a PlaylistObject", (done) => {
+        it("should return a PlaylistObject", (done) => {
             const mockAxiosResponse: AxiosResponse<GetPlaylistResponse> = {
                 data: mockPlaylistResponse,
                 status: 200,
@@ -63,7 +63,7 @@ describe("Playlist service", () => {
             })
         })
 
-        it("Returns undefined if it doesn't get a response", (done) => {
+        it("should return undefined if it doesn't get a response", (done) => {
             PlaylistService.getPlaylistById = jest.fn(_ => undefined)
             getPlaylist(mockPlaylistResponse.id).then(playlist => {
                 expect(playlist).toBeUndefined()

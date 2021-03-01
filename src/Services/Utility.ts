@@ -3,6 +3,10 @@
  * Ex: 1 Day, 3 Hours, 12 Minutes
  */
 export function msToSentence(ms: number) {
+    if (ms <= 0) {
+        return undefined
+    }
+
     const msInDay = 86400000
     const msInHour = msInDay / 24
     const msInMinute = msInHour / 60
@@ -36,6 +40,10 @@ export function msToSentence(ms: number) {
 }
 
 export function msToTimestamp(ms: number) {
+    if (ms <= 0) {
+        return undefined
+    }
+
     const seconds = Math.floor(ms / 1000)
     const minutes = Math.floor(seconds / 60)
     const hours = Math.floor(minutes / 60)
@@ -45,7 +53,7 @@ export function msToTimestamp(ms: number) {
         labelValues.push(hours)
     }
 
-    if (minutes > 0) {
+    if (minutes > 0 || (hours < 1)) {
         labelValues.push(minutes % 60)
     }
 
@@ -54,11 +62,9 @@ export function msToTimestamp(ms: number) {
     }
 
     return labelValues.map((value, index) => {
-        if (value % 10 == 0) {
-            return `${value}0`
-        }
-
         if (index == 0) {
+            // Short circuit for the first element because we don't want
+            // To prefix the first item in the label with a 0
             return `${value}`
         }
 
