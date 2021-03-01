@@ -15,6 +15,7 @@ export interface PlaylistObject {
     owner: PublicUserObject
     public: boolean
     tracks: PlaylistTrackObject[]
+    uri: string
 }
 
 export interface PlaylistTrackObject {

@@ -20,26 +20,27 @@ enum AlbumGroup {
  */
 
 export interface AlbumObject {
-    album_type: AlbumType,
-    artists: ArtistObject[],
-    genres: string[],
-    href: string,
-    id: string,
-    images: ImageObject[],
-    label: string,
-    name: string,
-    popularity: number,
-    tracks: TrackObject[],
+    album_type: AlbumType
+    artists: ArtistObject[]
+    genres: string[]
+    href: string
+    id: string
+    images: ImageObject[]
+    label: string
+    name: string
+    popularity: number
+    tracks: TrackObject[]
     release_date: string
+    uri: string
 }
 
 export interface SimplifiedAlbumObject {
-    album_group: AlbumGroup,
-    album_type: AlbumType,
-    artists: SimplifiedArtistObject[],
-    id: string,
-    images: ImageObject[],
-    name: string,
+    album_group: AlbumGroup
+    album_type: AlbumType
+    artists: SimplifiedArtistObject[]
+    id: string
+    images: ImageObject[]
+    name: string
     release_date: string
-
+    uri: string
 }

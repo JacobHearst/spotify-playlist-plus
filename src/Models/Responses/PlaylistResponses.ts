@@ -10,5 +10,6 @@ export interface GetPlaylistResponse {
     name: string
     owner: PublicUserObject
     public: boolean
+    uri: string
     tracks: Paginated<PlaylistTrackObject>
 }

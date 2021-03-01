@@ -11,6 +11,7 @@ export interface ArtistObject {
     images: ImageObject[]
     name: string
     popularity: number
+    uri: string
 }
 
 export interface SimplifiedArtistObject {
