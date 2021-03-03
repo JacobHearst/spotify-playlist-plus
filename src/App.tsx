@@ -8,6 +8,7 @@ import LandingPage from "./Components/Shared/LandingPage"
 import { TokenWatcher, AuthenticationContext, AuthenticationContextObject } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
+import ArtistPage from "./Components/Pages/Artist/ArtistPage"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -54,6 +55,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                     <Switch>
                         <Route exact path={pageURL}>{ landingElement }</Route>
                         <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
+                        <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
                         <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
                     </Switch>
                 </AuthenticationContext.Provider>

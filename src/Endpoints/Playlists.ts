@@ -3,7 +3,7 @@ import axiosInstance from "./AxiosConfig"
 
 const baseURL = "https://api.spotify.com/v1/playlists"
 
-export default class PlaylistService {
+export default class PlaylistEndpoints {
     static getPlaylistById(id: string) {
         try {
             return axiosInstance.get<GetPlaylistResponse>(`${baseURL}/${id}`)
