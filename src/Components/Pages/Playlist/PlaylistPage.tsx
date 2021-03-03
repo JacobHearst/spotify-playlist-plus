@@ -1,7 +1,7 @@
 import React from "react"
 import { Container } from "react-bootstrap"
 import { match } from "react-router-dom"
-import { getPlaylist } from "../../../Services/PlaylistService"
+import PlaylistService from "../../../Services/PlaylistService"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
@@ -30,7 +30,7 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
 
     loadPlaylist() {
         console.log("Loading playlist")
-        getPlaylist(this.state.playlistId).then((playlist) => {
+        PlaylistService.getPlaylist(this.state.playlistId).then((playlist) => {
             if (playlist) {
                 this.setState({ ...this.state, playlist })
             } else {
