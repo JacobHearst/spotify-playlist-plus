@@ -12,10 +12,11 @@ interface TrackTableState extends TrackTableProps {}
 export default class TrackTable extends React.Component<TrackTableProps, TrackTableState> {
     constructor(props: TrackTableProps) {
         super(props)
-        this.state = { ...props }
+        this.state = { tracks: props.tracks }
     }
 
     render() {
+        console.log("Tracks: ", this.state.tracks)
         return (
             <Table hover>
                 <thead>

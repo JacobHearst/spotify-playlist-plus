@@ -1,5 +1,6 @@
 import ArtistEndpoints from "../Endpoints/Artists"
 import { ArtistObject } from "../Models/SpotifyObjects/ArtistObjects"
+import { TrackObject } from "../Models/SpotifyObjects/TrackObjects"
 
 export default class ArtistService {
     static async getArtist(id: string): Promise<ArtistObject | undefined> {
@@ -9,5 +10,14 @@ export default class ArtistService {
         }
 
         return response.data
+    }
+
+    static async getArtistTopTracks({ id }: ArtistObject): Promise<TrackObject[] | undefined> {
+        const response = await ArtistEndpoints.getArtistTopTracks(id)
+        if (!response) {
+            return
+        }
+
+        return response.data.tracks
     }
 }

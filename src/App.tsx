@@ -4,11 +4,11 @@ import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import PlaylistPage from "./Components/Pages/Playlist/PlaylistPage"
 import AlbumPage from "./Components/Pages/Album/AlbumPage"
-import LandingPage from "./Components/Shared/LandingPage"
 import { TokenWatcher, AuthenticationContext, AuthenticationContextObject } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
 import ArtistPage from "./Components/Pages/Artist/ArtistPage"
+import LandingPage from "./Components/Shared/LandingPage"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -44,7 +44,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
     render() {
         const pageURL = "/spotify-playlist-plus"
 
-        let landingElement = LandingPage()
+        let landingElement = <LandingPage />
         if (this.state.tokenWatcher) {
             landingElement = <HomePage/>
         }
