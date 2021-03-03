@@ -2,7 +2,6 @@ import React from "react"
 import { Badge, Col, Image, Row } from "react-bootstrap"
 import { Container } from "react-bootstrap"
 import { match } from "react-router-dom"
-
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import ArtistService from "../../../Services/ArtistService"
@@ -43,9 +42,7 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
     }
 
     loadTopTracks(artist: ArtistObject) {
-        console.log("Loading top tracks")
         ArtistService.getArtistTopTracks(artist).then((topTracks) => {
-            console.log("Top tracks: ", topTracks)
             if (topTracks) {
                 this.setState({ ...this.state, topTracks })
             }
@@ -82,23 +79,21 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
                     : <p>Loading Image</p>
                 }
                 <Row>
-                    <Col>
-                        <h2>{name}</h2>
-                    </Col>
+                    <Col as={"h2"}>{name}</Col>
+                </Row>
+                <Row>
+                    <Col as={"p"}>Genres: {genreBadges}</Col>
+                </Row>
+                <Row>
+                    <Col as={"p"}> Popularity: {popularity}th Percentile </Col>
+                </Row>
+                <Row>
+                    <Col as={"h3"}>Top Tracks</Col>
                 </Row>
                 <Row>
                     <Col>
-                        {genreBadges}
+                        <TrackTable tracks={this.state.topTracks} />
                     </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <p>Popularity: {popularity}th Percentile</p>
-                    </Col>
-                </Row>
-                <Row>
-                    <h3>Top Tracks</h3>
-                    <TrackTable tracks={this.state.topTracks} />
                 </Row>
             </Container>
         )

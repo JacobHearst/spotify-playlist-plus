@@ -16,7 +16,10 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
     }
 
     render() {
-        console.log("Tracks: ", this.state.tracks)
+        if (!this.state.tracks) {
+            return <p>Loading tracks</p>
+        }
+
         return (
             <Table hover>
                 <thead>
@@ -29,9 +32,7 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                     </tr>
                 </thead>
                 <tbody>
-                    { this.state.tracks
-                        ? this.state.tracks.map((track) => (<TrackTableItem key={track.id} track={track}/>))
-                        : <tr>Loading tracks</tr>}
+                    {this.state.tracks.map((track) => (<TrackTableItem key={track.id} track={track}/>))}
                 </tbody>
             </Table>
         )
