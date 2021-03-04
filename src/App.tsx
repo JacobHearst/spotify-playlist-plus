@@ -34,7 +34,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         } else {
             AuthService.exchangeCodeForToken(code, verifier).then((authToken) => {
                 if (authToken) {
-                    this.refreshCallback(authToken)
+                    this.refreshTokenCallback(authToken)
                     initAxios(this.state)
                 }
             })
@@ -70,8 +70,8 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         )
     }
 
-    refreshCallback(token: AuthToken) {
+    refreshTokenCallback(token: AuthToken) {
         this.setState({ ...this.state, authToken: token })
-        AuthService.refreshTimer(token, this.refreshCallback)
+        AuthService.refreshTimer(token, this.refreshTokenCallback)
     }
 }
