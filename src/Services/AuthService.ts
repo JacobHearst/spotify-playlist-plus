@@ -90,7 +90,10 @@ export default class AuthService {
 
 
     // ########################### Token Retrievers ##################################################
-    static async refreshTimer(token: AuthToken, callback: (token: AuthToken) => any) {
+
+    /* eslint-disable */
+    // Disable esline or else typescript will complain about the callback signature
+    static async refreshTimer(token: AuthToken, callback: (newToken: AuthToken) => any) {
         // refresh 5 seconds before the token expires
         const msBeforeExpires = 5000
         const expireTimeInMs = token.expires_in * 1000
@@ -109,6 +112,7 @@ export default class AuthService {
 
         }, refreshTime)
     }
+    /* eslint-enable */
 
     static exchangeCodeForToken(code: string, verifier: string) {      
         const data : GetTokenRequest = {

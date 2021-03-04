@@ -1,7 +1,6 @@
 /* global global */
 
-import { GetVerifierCookie } from "../../App"
-import * as Retriever from "../AuthService"
+import AuthService from "../AuthService"
 
 const crypto = require("crypto")
 
@@ -16,8 +15,8 @@ describe("Token Retrieval", () => {
         })
 
         it("Cookie is created, set, and retrieved", (done) => {
-            const cookie = Retriever.createCodeVerifierCookie()
-            expect(cookie).toEqual(GetVerifierCookie())
+            const cookie = AuthService.createCodeVerifierCookie()
+            expect(AuthService.getVerifierCookie()).toEqual(cookie)
             done()
         })
     })
