@@ -5,17 +5,17 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import PlaylistPage from "./Components/Pages/Playlist/PlaylistPage"
 import AlbumPage from "./Components/Pages/Album/AlbumPage"
 import LandingPage from "./Components/Shared/LandingPage"
-import { AuthenticationContext, AuthenticationContextObject, TokenRetriever } from "./Models/Authentication"
+import { AuthenticationContext, AuthenticationContextObject, TokenRetriever, AuthToken } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
-import PKCEAuthentication from "./Services/AuthService"
+import AuthService from "./Services/AuthService"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
         super(props)
 
         // get cookie or create a new one
-        const verifier = PKCEAuthentication.getVerifierCookie() ?? PKCEAuthentication.createCodeVerifierCookie()
+        const verifier = AuthService.getVerifierCookie() ?? AuthService.createCodeVerifierCookie()
 
         // try and get authorization code from url
         const code = new URLSearchParams(window.location.search).get("code")
@@ -23,7 +23,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         // havn't redirected yet/ need to do first step of authorization
         if (!code) {
             // force reload component when we actually get the redirect url for the log in button
-            PKCEAuthentication.constructAuthorizationURI(verifier).then((url) => {
+            AuthService.constructAuthorizationURI(verifier).then((url) => {
                 const tokenRetriever: TokenRetriever = {
                     redirect_url: url,
                     verifier: verifier,
@@ -32,11 +32,10 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                 this.setState({ ...this.state, tokenRetriever })
             })
         } else {
-            PKCEAuthentication.exchangeCodeForToken(code, verifier).then((authToken) => {
+            AuthService.exchangeCodeForToken(code, verifier).then((authToken) => {
                 if (authToken) {
-                    const newState = { ...this.state, authToken }
-                    this.setState(newState)
-                    initAxios(newState)
+                    this.refreshCallback(authToken)
+                    initAxios(this.state)
                 }
             })
         }
@@ -69,5 +68,10 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                 </AuthenticationContext.Provider>
             </main>
         )
+    }
+
+    refreshCallback(token: AuthToken) {
+        this.setState({ ...this.state, authToken: token })
+        AuthService.refreshTimer(token, this.refreshCallback)
     }
 }

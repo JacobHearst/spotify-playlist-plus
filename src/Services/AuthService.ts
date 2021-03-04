@@ -3,8 +3,11 @@ import { getAuthenticationToken } from "../Endpoints/Authorization"
 import { AuthToken } from "../Models/Authentication"
 import { GetTokenRequest } from "../Models/Requests/AuthenticationRequests"
 
+
 // class that handles all authentication
-export default class PKCEAuthentication {
+export default class AuthService {
+    // scopes that are needed 
+    static scopes : string[] = ["user-modify-playback-state", "user-read-playback-state"]
     constructor() {}
 
     // ########################## Cookie Creation / Retrival ###############################
@@ -30,7 +33,9 @@ export default class PKCEAuthentication {
 
     // ############## Verifier / Authorization URL Creation ##############################
     static async constructAuthorizationURI(verifier: string): Promise<string> {
-        let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`
+        const scopeString : string = this.scopes.join(" ")
+
+        let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${encodeURIComponent(scopeString)}`
 
         const hash = await this.sha256(verifier)
         const code_challenge = this.base64urlencode(hash)
@@ -85,24 +90,24 @@ export default class PKCEAuthentication {
 
 
     // ########################### Token Retrievers ##################################################
-    static async watchToken(token: AuthToken) {
-        const timeBeforeExpires = 5000
-        return new Promise((resolve, reject) => {
-            const interval = setInterval(async () => {
-                const newToken: AuthToken | undefined = await getAuthenticationToken({
-                    grant_type: "refresh_token",
-                    refresh_token: token.refresh_token,
-                    client_id: clientId
-                })
+    static async refreshTimer(token: AuthToken, callback: (token: AuthToken) => any) {
+        // refresh 5 seconds before the token expires
+        const msBeforeExpires = 5000
+        const expireTimeInMs = token.expires_in * 1000
+        const refreshTime = expireTimeInMs - msBeforeExpires
 
-                if (newToken) {
-                    resolve(newToken)
-                    clearInterval(interval)
-                }
+        setTimeout(async () => {
+            const newToken: AuthToken | undefined = await getAuthenticationToken({
+                grant_type: "refresh_token",
+                refresh_token: token.refresh_token,
+                client_id: clientId
+            })
 
-                reject("Times up")
-            }, token.expires_in - timeBeforeExpires)
-        })
+            if (newToken) {
+                callback(newToken)
+            }
+
+        }, refreshTime)
     }
 
     static exchangeCodeForToken(code: string, verifier: string) {      

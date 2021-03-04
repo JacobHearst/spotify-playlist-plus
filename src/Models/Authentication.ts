@@ -15,7 +15,7 @@ export interface TokenRetriever {
 export interface AuthenticationContextObject {
     authToken?: AuthToken,
     tokenRetriever?: TokenRetriever,
-    logOut?: () => void
+    logOut: () => void
 }
 
 export const AuthenticationContext = React.createContext<AuthenticationContextObject | undefined>(undefined)
