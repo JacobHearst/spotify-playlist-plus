@@ -1,15 +1,17 @@
-import PlaylistService from "../Endpoints/Playlists"
+import PlaylistEndpoints from "../Endpoints/Playlists"
 import { PlaylistObject } from "../Models/SpotifyObjects/PlaylistObjects"
 
-export async function getPlaylist(id: string): Promise<PlaylistObject | undefined> {
-    const response = await PlaylistService.getPlaylistById(id)
-    if (!response) {
-        return
-    }
+export default class PlaylistService {
+    static async getPlaylist(id: string): Promise<PlaylistObject | undefined> {
+        const response = await PlaylistEndpoints.getPlaylistById(id)
+        if (!response) {
+            return
+        }
 
-    const tracks = response.data.tracks.items
-    return {
-        ...response.data,
-        tracks
+        const tracks = response.data.tracks.items
+        return {
+            ...response.data,
+            tracks
+        }
     }
 }
