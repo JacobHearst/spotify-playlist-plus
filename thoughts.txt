@@ -1,0 +1,6 @@
+We need live data on:
+    - Artist page
+    - Album page
+
+"As a developer, I want to have a basic page structure so that I can build my features around it"
+    - Should really be: Make a home page

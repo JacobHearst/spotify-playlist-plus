@@ -25,9 +25,10 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
         }
 
         const { name, description, owner, tracks } = this.state.playlist
-        const playlistLength = tracks
-            .map(({ track }) => track.duration_ms)
-            .reduce((previousValue, currentValue) => previousValue + currentValue)
+
+        let playlistLength = 0
+        tracks.forEach(({ track }) => playlistLength += track.duration_ms)
+
         return (
             <Row style={{ marginBottom: 15 }}>
                 {/* Header */}
