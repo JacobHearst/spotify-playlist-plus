@@ -64,8 +64,8 @@ describe("Playlist service", () => {
         })
 
         it("should return undefined if it doesn't get a response", (done) => {
-            PlaylistService.getPlaylistById = jest.fn(_ => undefined)
-            getPlaylist(mockPlaylistResponse.id).then(playlist => {
+            PlaylistEndpoints.getPlaylistById = jest.fn(_ => undefined)
+            PlaylistService.getPlaylist(mockPlaylistResponse.id).then(playlist => {
                 expect(playlist).toBeUndefined()
                 done()
             })
