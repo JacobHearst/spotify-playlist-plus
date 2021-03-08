@@ -1,4 +1,4 @@
-import { authEndpoint, clientId, redirectUri } from "../Constants/Constants"
+import { authEndpoint, clientId, config } from "../Constants/Constants"
 import { getAuthenticationToken } from "../Endpoints/Authorization"
 import { AuthToken } from "../Models/Authentication"
 import { GetTokenRequest } from "../Models/Requests/AuthenticationRequests"
@@ -35,7 +35,7 @@ export default class AuthService {
     static async constructAuthorizationURI(verifier: string): Promise<string> {
         const scopeString : string = this.scopes.join(" ")
 
-        let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${encodeURIComponent(scopeString)}`
+        let url = `${authEndpoint}?client_id=${clientId}&response_type=code&redirect_uri=${config.redirectUri}&scope=${encodeURIComponent(scopeString)}`
 
         const hash = await this.sha256(verifier)
         const code_challenge = this.base64urlencode(hash)
@@ -119,7 +119,7 @@ export default class AuthService {
             client_id: clientId,
             grant_type: "authorization_code",
             code: code,
-            redirect_uri: redirectUri,
+            redirect_uri: config.redirectUri,
             code_verifier: verifier
         } 
 
