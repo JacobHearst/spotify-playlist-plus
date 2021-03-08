@@ -1,6 +1,8 @@
+/* eslint-disable */
 export enum TrackSymbols {
-    Play = "#9654",
-    Pause = "#9208",
-    Next = "#5861",
-    Previous = "#5862"
+    Play = "\u25B6",
+    Pause = "\u23F8",
+    Next = "\u23E9",
+    Previous = "\u23EA"
 }
+/* eslint-enable */

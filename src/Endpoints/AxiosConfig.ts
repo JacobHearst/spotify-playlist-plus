@@ -5,12 +5,9 @@ const axiosInstance = axios.create({})
 
 // set authorization header so that we don't have to specify it with every request
 export function initAxios(context: AuthenticationContextObject) {
-    if (!context.tokenWatcher) {
-        console.warn("Can't initialize axios without a token watcher")
-        return
+    if (context.authToken) {
+        axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + context.authToken.access_token
     }
-
-    axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + context.tokenWatcher.currentToken
 }
 
 // default error handling for responses

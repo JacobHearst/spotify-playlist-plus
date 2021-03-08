@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { authEndpoint, clientId, config } from "../../Constants/Constants"
+import { AuthenticationContext } from "../../Models/Authentication"
 
 export default function LandingPage() {
     return (
@@ -10,11 +10,22 @@ export default function LandingPage() {
     )
 }
 // To view Spotify login API steps head to: https://developer.spotify.com/documentation/general/guides/authorization-guide/
-// We're using the Implicit Grant flow
+// We're using the Auth code with PKCE flow
 function logInButton(): ReactNode {
     return (
-        <a href={authEndpoint + "?client_id=" + clientId + "&response_type=token&redirect_uri=" + config.redirectUri}>
-            <button>Spotify Login</button>
-        </a>
+        <AuthenticationContext.Consumer>
+            {(context) => {
+                let href = undefined
+                if (context && context.tokenRetriever) {
+                    href = context.tokenRetriever.redirect_url
+                }
+
+                return (
+                    <a href={href}>
+                        <button disabled={!href}>Spotify Login</button>
+                    </a>
+                )
+            }}
+        </AuthenticationContext.Consumer>
     )
 }

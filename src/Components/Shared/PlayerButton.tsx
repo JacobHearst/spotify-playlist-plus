@@ -16,6 +16,8 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
         this.state = {
             ...props,
         }
+
+        this.playerButtonClicked = this.playerButtonClicked.bind(this)
     }
 
     playerButtonClicked() {
@@ -26,10 +28,11 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
         })
     }
 
+    // TODO: Change Unicode to .svg's or some other format that can be styled. Good for now tho
     render() {
         return (
             <Button variant="outline-dark" onClick={this.playerButtonClicked}>
-                &{this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
+                {this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
             </Button>
         )
     }
