@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import PlaylistPage from "./Components/Pages/Playlist/PlaylistPage"
 import AlbumPage from "./Components/Pages/Album/AlbumPage"
 import LandingPage from "./Components/Shared/LandingPage"
+import ArtistPage from "./Components/Pages/Artist/ArtistPage"
 import { AuthenticationContext, AuthenticationContextObject, TokenRetriever, AuthToken } from "./Models/Authentication"
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
@@ -50,7 +51,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
     render() {
         const pageURL = "/spotify-playlist-plus"
 
-        let landingElement = LandingPage()
+        let landingElement = <LandingPage />
         if (this.state.authToken) {
             landingElement = <HomePage />
         }
@@ -63,6 +64,7 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                             {landingElement}
                         </Route>
                         <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
+                        <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
                         <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
                     </Switch>
                 </AuthenticationContext.Provider>

@@ -7,6 +7,7 @@ export default function Navbar() {
         <div>     
             <Link to={pageURL}>Home </Link>
             <Link to={pageURL+"/AlbumPage"}>Album Page </Link>
+            <Link to={pageURL + "/artist/4V8LLVI7PbaPR0K2TGSxFF"}>Artist Page</Link>
             <Link to={pageURL + "/playlist/37i9dQZF1DZ06evO2QRN3G"}>Playlist Page </Link>
         </div>      
     )

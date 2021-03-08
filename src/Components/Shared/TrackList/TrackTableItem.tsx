@@ -12,7 +12,7 @@ interface TrackTableItemState extends TrackTableItemProps {}
 export default class TrackTableItem extends React.Component<TrackTableItemProps, TrackTableItemState> {
     constructor(props: TrackTableItemProps) {
         super(props)
-        this.state = { ...props }
+        this.state = { track: props.track }
     }
 
     render() {

@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios"
-import PlaylistService from "../../Endpoints/Playlists"
+import PlaylistEndpoints from "../../Endpoints/Playlists"
 import { GetPlaylistResponse } from "../../Models/Responses/PlaylistResponses"
 import { PlaylistObject, PlaylistTrackObject } from "../../Models/SpotifyObjects/PlaylistObjects"
 import { PublicUserObject } from "../../Models/SpotifyObjects/SharedObjects"
 import { TrackObject } from "../../Models/SpotifyObjects/TrackObjects"
-import { getPlaylist } from "../PlaylistService"
+import PlaylistService from "../PlaylistService"
 
 describe("Playlist service", () => {
     const mockUser: PublicUserObject = {
@@ -38,7 +38,7 @@ describe("Playlist service", () => {
     }
 
     describe("getPlaylist", () => {
-        it("Returns a PlaylistObject", (done) => {
+        it("should return a PlaylistObject", (done) => {
             const mockAxiosResponse: AxiosResponse<GetPlaylistResponse> = {
                 data: mockPlaylistResponse,
                 status: 200,
@@ -50,22 +50,22 @@ describe("Playlist service", () => {
             const playlistPromise = new Promise<AxiosResponse<GetPlaylistResponse>>((resolve, reject) => {
                 resolve(mockAxiosResponse)
             })
-            PlaylistService.getPlaylistById = jest.fn(_ => playlistPromise)
+            PlaylistEndpoints.getPlaylistById = jest.fn(_ => playlistPromise)
 
             const expectedPlaylist: PlaylistObject = {
                 ...mockPlaylistResponse,
                 tracks: [mockTrack]
             }
 
-            getPlaylist(mockPlaylistResponse.id).then(playlist => {
+            PlaylistService.getPlaylist(mockPlaylistResponse.id).then(playlist => {
                 expect(playlist).toMatchObject(expectedPlaylist)
                 done()
             })
         })
 
-        it("Returns undefined if it doesn't get a response", (done) => {
-            PlaylistService.getPlaylistById = jest.fn(_ => undefined)
-            getPlaylist(mockPlaylistResponse.id).then(playlist => {
+        it("should return undefined if it doesn't get a response", (done) => {
+            PlaylistEndpoints.getPlaylistById = jest.fn(_ => undefined)
+            PlaylistService.getPlaylist(mockPlaylistResponse.id).then(playlist => {
                 expect(playlist).toBeUndefined()
                 done()
             })
