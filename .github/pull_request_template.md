@@ -2,6 +2,7 @@
 
 # Definition of Done
 - Unit tests on business logic
+- UI Tests on Components
 - Passing build/tests
 - No merge conflict
 - Passes lint

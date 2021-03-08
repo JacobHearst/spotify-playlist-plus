@@ -1,45 +1,99 @@
 import React from "react"
-import { Col, Image, Row } from "react-bootstrap"
+import { Badge, Col, Image, Row } from "react-bootstrap"
 import { Container } from "react-bootstrap"
-import Carousel from "react-bootstrap/Carousel"
-
+import { match } from "react-router-dom"
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
+import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
+import ArtistService from "../../../Services/ArtistService"
+import Navbar from "../../Shared/Navbar"
+import TrackTable from "../../Shared/TrackList/TrackTable"
 
 interface ArtistPageProps {
-    artist: ArtistObject
+    match: match<{ id: string }>
 }
 
-interface ArtistPageState extends ArtistPageProps {}
+interface ArtistPageState {
+    artist?: ArtistObject,
+    topTracks?: TrackObject[],
+    artistId: string
+}
 
 export default class ArtistPage extends React.Component<ArtistPageProps, ArtistPageState> {
     constructor(props: ArtistPageProps) {
         super(props)
         this.state = {
-            ...props,
+            artistId: props.match.params.id
         }
+
+        this.loadArtist = this.loadArtist.bind(this)
+        this.loadTopTracks = this.loadTopTracks.bind(this)
+        this.loadArtist()
+    }
+
+    loadArtist() {
+        ArtistService.getArtist(this.state.artistId).then((artist) => {
+            if (artist) {
+                this.setState({ ...this.state, artist })
+                this.loadTopTracks(artist)
+            } else {
+                // Error happened, check console. In future, display error to user?
+            }
+        }).catch(error => console.error(error))
+    }
+
+    loadTopTracks(artist: ArtistObject) {
+        ArtistService.getArtistTopTracks(artist).then((topTracks) => {
+            if (topTracks) {
+                this.setState({ ...this.state, topTracks })
+            }
+        })
     }
 
     render() {
-        const { genres, href, id, images, name, popularity } = this.state.artist
-        const carouselItems = images.map((image, index) => {
+        if (!this.state.artist) {
             return (
-                <Carousel.Item interval={1000}>
-                    <Image src={image.url} key={index} fluid></Image>
-                </Carousel.Item>
+                <React.Fragment>
+                    <Navbar/>
+                    <p>Loading Artist</p>
+                </React.Fragment>
             )
-        })
+        }
+
+        const { genres, images, name, popularity } = this.state.artist
+        const coverImages = {
+            sm: images.find(image => image.height === 160),
+            md: images.find(image => image.height === 320),
+            lg: images.find(image => image.height === 640),
+        }
+
+        const coverImage = coverImages.md ?? coverImages.lg ?? coverImages.sm
+        const genreBadges = genres.map((genre) => (
+            <Badge key={genre} style={{marginRight: 5}} variant="secondary">{genre}</Badge>
+        ))
 
         return (
-            <Container>
-                <Carousel fade={true}>{carouselItems}</Carousel>
+            <Container fluid>
+                <Navbar />
+                {coverImage ?
+                    <Image src={coverImage.url} />
+                    : <p>Loading Image</p>
+                }
                 <Row>
-                    <h2>{name}</h2>
+                    <Col as={"h2"}>{name}</Col>
                 </Row>
                 <Row>
-                    <div>{genres}</div>
+                    <Col as={"p"}>Genres: {genreBadges}</Col>
                 </Row>
                 <Row>
-                    <div>{popularity}</div>
+                    <Col as={"p"}> Popularity: {popularity}th Percentile </Col>
+                </Row>
+                <Row>
+                    <Col as={"h3"}>Top Tracks</Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <TrackTable tracks={this.state.topTracks} />
+                    </Col>
                 </Row>
             </Container>
         )
