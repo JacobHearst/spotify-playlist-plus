@@ -16,10 +16,9 @@ describe("Token Retrieval", () => {
             }
         })
 
-        it("Cookie is created, set, and retrieved", (done) => {
+        it("Cookie is created, set, and retrieved", () => {
             const cookie = AuthService.createCodeVerifierCookie()
             expect(AuthService.getVerifierCookie()).toEqual(cookie)
-            done()
         })
     })
 })
