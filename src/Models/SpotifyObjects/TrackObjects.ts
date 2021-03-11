@@ -16,4 +16,5 @@ export interface TrackObject {
     name: string
     popularity: number
     track_number: number
+    uri: string
 }

@@ -3,11 +3,12 @@ import { getAuthenticationToken } from "../Endpoints/Authorization"
 import { AuthToken } from "../Models/Authentication"
 import { GetTokenRequest } from "../Models/Requests/AuthenticationRequests"
 
-
 // class that handles all authentication
 export default class AuthService {
     // scopes that are needed 
-    static scopes : string[] = ["user-modify-playback-state", "user-read-playback-state"]
+    static scopes : string[] = ["user-modify-playback-state", "user-read-playback-state", "streaming", 
+        "user-read-email", "user-read-private"]
+
     constructor() {}
 
     // ########################## Cookie Creation / Retrival ###############################

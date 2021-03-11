@@ -20,7 +20,7 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
         return (
             <tr>
                 <td>
-                    <PlayerButton currentlyPlaying={false}></PlayerButton>
+                    <PlayerButton currentlyPlaying={false} uris={[this.state.track.uri]}></PlayerButton>
                 </td>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>
