@@ -6,8 +6,10 @@ import { AuthenticationContext } from "../../Models/Authentication"
 import { Spotify } from "../../Models/SpotifyObjects/PlayerObjects"
 
 interface PlayerButtonProps {
-    currentlyPlaying: Boolean
     uris: string[]
+    updateCurrentlyPlayingCallback(trackNumber: number): void
+    index: number
+    currentlyPlaying?: boolean
 }
 
 interface PlayerButtonState extends PlayerButtonProps {}
@@ -24,11 +26,9 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
     }
 
     async playerButtonClicked(player: Spotify.SpotifyPlayer) {
-        this.state.currentlyPlaying ? PlayerEndpoints.pause() : PlayerEndpoints.startResume(player._options.id, this.state.uris)
+        this.props.currentlyPlaying ? PlayerEndpoints.pause() : PlayerEndpoints.startResume(player._options.id, this.state.uris)
 
-        this.setState({
-            currentlyPlaying: !this.state.currentlyPlaying,
-        })
+        this.props.updateCurrentlyPlayingCallback(this.props.index)
     }
 
     render() {

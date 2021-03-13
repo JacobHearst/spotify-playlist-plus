@@ -5,6 +5,7 @@ import TrackTableItem from "./TrackTableItem"
 
 interface TrackTableProps {
     tracks?: TrackObject[]
+    currentPlayingTrack?: number
 }
 
 interface TrackTableState extends TrackTableProps {}
@@ -12,7 +13,15 @@ interface TrackTableState extends TrackTableProps {}
 export default class TrackTable extends React.Component<TrackTableProps, TrackTableState> {
     constructor(props: TrackTableProps) {
         super(props)
-        this.state = { tracks: props.tracks }
+        this.state = { tracks: props.tracks, currentPlayingTrack: -1 }
+        this.updateCurrentTrack.bind(this)
+    }
+
+    updateCurrentTrack = (trackNumber: number) => {
+        const trackPaused = trackNumber == this.state.currentPlayingTrack
+        const currentlyPlayingTrack = trackPaused ? -1 : trackNumber
+
+        this.setState({ ...this.state, currentPlayingTrack: currentlyPlayingTrack })
     }
 
     render() {
@@ -32,7 +41,15 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.tracks.map((track) => (<TrackTableItem key={track.id} track={track}/>))}
+                    {this.state.tracks.map((track, index) => (
+                        <TrackTableItem
+                            key={track.id}
+                            track={track}
+                            index={index}
+                            updateCurrentlyPlayingCallback={this.updateCurrentTrack}
+                            currentlyPlaying={this.state.currentPlayingTrack == index}
+                        />
+                    ))}
                 </tbody>
             </Table>
         )

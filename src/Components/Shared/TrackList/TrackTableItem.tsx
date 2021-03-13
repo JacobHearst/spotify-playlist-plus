@@ -5,9 +5,14 @@ import PlayerButton from "../PlayerButton"
 
 interface TrackTableItemProps {
     track: TrackObject
+    updateCurrentlyPlayingCallback(trackNumber: number): void
+    currentlyPlaying?: boolean
+    index: number
 }
 
-interface TrackTableItemState extends TrackTableItemProps {}
+interface TrackTableItemState {
+    track: TrackObject
+}
 
 export default class TrackTableItem extends React.Component<TrackTableItemProps, TrackTableItemState> {
     constructor(props: TrackTableItemProps) {
@@ -20,7 +25,11 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
         return (
             <tr>
                 <td>
-                    <PlayerButton currentlyPlaying={false} uris={[this.state.track.uri]}></PlayerButton>
+                    <PlayerButton
+                        currentlyPlaying={this.props.currentlyPlaying}
+                        uris={[this.state.track.uri]}
+                        updateCurrentlyPlayingCallback={this.props.updateCurrentlyPlayingCallback}
+                        index={this.props.index}></PlayerButton>
                 </td>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>
