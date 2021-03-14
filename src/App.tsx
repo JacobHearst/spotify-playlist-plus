@@ -26,15 +26,10 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         // havn't redirected yet/ need to do first step of authorization
         if (!code) {
             // force reload component when we actually get the redirect url for the log in button
-            AuthService.constructAuthorizationURI(verifier).then((url) => {
-                const tokenRetriever: TokenRetriever = {
-                    redirect_url: url,
-                    verifier: verifier,
-                }
-
-                this.setState({ ...this.state, tokenRetriever })
-            })
-        } else {
+            this.getAuthURL(verifier)
+        }
+        // Redirected from Spotify Auth
+        else {
             AuthService.exchangeCodeForToken(code, verifier).then((authToken) => {
                 if (authToken) {
                     initAxios(authToken)
@@ -45,9 +40,17 @@ export default class App extends React.Component<{}, AuthenticationContextObject
 
         this.state = {
             logOut: () => {
+                this.getAuthURL(verifier)
                 this.setState({ ...this.state, authToken: undefined })
             },
         }
+    }
+
+    getAuthURL(verifier: string) {
+        AuthService.constructAuthorizationURI(verifier).then((redirect_url) => {
+            const tokenRetriever: TokenRetriever = { redirect_url, verifier }
+            this.setState({ ...this.state, tokenRetriever })
+        })
     }
 
     render() {
