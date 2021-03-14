@@ -3,12 +3,14 @@ import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import { msToTimestamp } from "../../../Services/Utility"
 import PlayerButton from "../PlayerButton"
 
+/* eslint-disable */
 interface TrackTableItemProps {
     track: TrackObject
     updateCurrentlyPlayingCallback(trackNumber: number): void
     currentlyPlaying?: boolean
     index: number
 }
+/* eslint-enable */
 
 interface TrackTableItemState {
     track: TrackObject

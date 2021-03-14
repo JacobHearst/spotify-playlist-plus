@@ -5,12 +5,14 @@ import * as PlayerEndpoints from "../../Endpoints/Player"
 import { AuthenticationContext } from "../../Models/Authentication"
 import { Spotify } from "../../Models/SpotifyObjects/PlayerObjects"
 
+/* eslint-disable */
 interface PlayerButtonProps {
     uris: string[]
     updateCurrentlyPlayingCallback(trackNumber: number): void
     index: number
     currentlyPlaying?: boolean
 }
+/* eslint-enable */
 
 interface PlayerButtonState extends PlayerButtonProps {}
 
