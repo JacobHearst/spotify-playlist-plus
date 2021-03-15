@@ -5,11 +5,18 @@ import PlayerButton from "../PlayerButton"
 import TrackDropDown from "./TrackDropDown"
 import "./TrackTable.css"
 
+/* eslint-disable */
 interface TrackTableItemProps {
     track: TrackObject
+    updateCurrentlyPlayingCallback(trackNumber: number): void
+    currentlyPlaying?: boolean
+    index: number
 }
+/* eslint-enable */
 
-interface TrackTableItemState extends TrackTableItemProps {}
+interface TrackTableItemState {
+    track: TrackObject
+}
 
 export default class TrackTableItem extends React.Component<TrackTableItemProps, TrackTableItemState> {
     constructor(props: TrackTableItemProps) {
@@ -22,7 +29,11 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
         return (
             <tr>
                 <td>
-                    <PlayerButton currentlyPlaying={false}></PlayerButton>
+                    <PlayerButton
+                        currentlyPlaying={this.props.currentlyPlaying}
+                        uris={[this.state.track.uri]}
+                        updateCurrentlyPlayingCallback={this.props.updateCurrentlyPlayingCallback}
+                        index={this.props.index}></PlayerButton>
                 </td>
                 <td>{this.state.track.track_number}</td>
                 <td>{this.state.track.name}</td>

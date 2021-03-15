@@ -2,10 +2,17 @@ import React from "react"
 import { Button } from "react-bootstrap"
 import { TrackSymbols } from "../../Constants/Symbols"
 import * as PlayerEndpoints from "../../Endpoints/Player"
+import { AuthenticationContext } from "../../Models/Authentication"
+import { Spotify } from "../../Models/SpotifyObjects/PlayerObjects"
 
+/* eslint-disable */
 interface PlayerButtonProps {
-    currentlyPlaying: Boolean
+    uris: string[]
+    updateCurrentlyPlayingCallback(trackNumber: number): void
+    index: number
+    currentlyPlaying?: boolean
 }
+/* eslint-enable */
 
 interface PlayerButtonState extends PlayerButtonProps {}
 
@@ -20,20 +27,21 @@ export default class PlayerButton extends React.Component<PlayerButtonProps, Pla
         this.playerButtonClicked = this.playerButtonClicked.bind(this)
     }
 
-    playerButtonClicked() {
-        this.state.currentlyPlaying ? PlayerEndpoints.pause() : PlayerEndpoints.startResume()
+    async playerButtonClicked(player: Spotify.SpotifyPlayer) {
+        this.props.currentlyPlaying ? PlayerEndpoints.pause() : PlayerEndpoints.startResume(player._options.id, this.state.uris)
 
-        this.setState({
-            currentlyPlaying: !this.state.currentlyPlaying,
-        })
+        this.props.updateCurrentlyPlayingCallback(this.props.index)
     }
 
-    // TODO: Change Unicode to .svg's or some other format that can be styled. Good for now tho
     render() {
         return (
-            <Button variant="outline-dark" onClick={this.playerButtonClicked}>
-                {this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
-            </Button>
+            <AuthenticationContext.Consumer>
+                {(context) => (
+                    <Button variant="outline-dark" onClick={() => this.playerButtonClicked(context?.player!)}>
+                        {this.props.currentlyPlaying ? TrackSymbols.Pause : TrackSymbols.Play}
+                    </Button>
+                )}
+            </AuthenticationContext.Consumer>
         )
     }
 }

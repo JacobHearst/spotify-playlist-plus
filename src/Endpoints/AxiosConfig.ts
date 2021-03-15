@@ -1,12 +1,12 @@
 import axios from "axios"
-import { AuthenticationContextObject } from "../Models/Authentication"
+import { AuthToken } from "../Models/Authentication"
 
 const axiosInstance = axios.create({})
 
 // set authorization header so that we don't have to specify it with every request
-export function initAxios(context: AuthenticationContextObject) {
-    if (context.authToken) {
-        axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + context.authToken.access_token
+export function initAxios(token: AuthToken) {
+    if (token) {
+        axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + token.access_token
     }
 }
 

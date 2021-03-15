@@ -10,6 +10,8 @@ import { AuthenticationContext, AuthenticationContextObject, TokenRetriever, Aut
 import HomePage from "./Components/Pages/Home/HomePage"
 import { initAxios } from "./Endpoints/AxiosConfig"
 import AuthService from "./Services/AuthService"
+import { getSpotifyPlayer } from "./Services/PlayerService"
+import { Spotify } from "./Models/SpotifyObjects/PlayerObjects"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -30,8 +32,8 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         else {
             AuthService.exchangeCodeForToken(code, verifier).then((authToken) => {
                 if (authToken) {
+                    initAxios(authToken)
                     this.refreshTokenCallback(authToken)
-                    initAxios(this.state)
                 }
             })
         }
@@ -75,8 +77,13 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         )
     }
 
-    refreshTokenCallback(token: AuthToken) {
-        this.setState({ ...this.state, authToken: token })
+    async refreshTokenCallback(token: AuthToken) {
+        const player: Spotify.SpotifyPlayer = await getSpotifyPlayer(token)
+        player.connect().then((success) => {
+            console.log(success)
+        })
+
+        this.setState({ ...this.state, authToken: token, player: player })
         AuthService.refreshTimer(token, this.refreshTokenCallback)
     }
 }
