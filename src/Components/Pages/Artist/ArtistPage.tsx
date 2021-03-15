@@ -1,6 +1,7 @@
 import React from "react"
-import { Badge, Col, Image, Row } from "react-bootstrap"
+import { Badge, Col, Dropdown, Image, Row } from "react-bootstrap"
 import { Container } from "react-bootstrap"
+import { ThreeDotsVertical } from "react-bootstrap-icons"
 import { match } from "react-router-dom"
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
@@ -79,7 +80,18 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
                     : <p>Loading Image</p>
                 }
                 <Row>
-                    <Col as={"h2"}>{name}</Col>
+                    <Col as={"h2"} xs={"auto"}>{name}</Col>
+                    <Col>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="Secondary">
+                                <ThreeDotsVertical />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href={this.state.artist.uri}>Open in Spotify</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Col>
                 </Row>
                 <Row>
                     <Col as={"p"}>Genres: {genreBadges}</Col>
