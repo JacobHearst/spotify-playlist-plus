@@ -1,5 +1,7 @@
 import { AuthToken } from "../Models/Authentication"
 import { Spotify } from "../Models/SpotifyObjects/PlayerObjects"
+import { PlaylistObject } from "../Models/SpotifyObjects/PlaylistObjects"
+import TrackService from "./TrackService"
 
 async function waitForSpotify() : Promise<typeof Spotify> {
     return new Promise((resolve) => {
@@ -26,4 +28,20 @@ export async function getSpotifyPlayer(token: AuthToken) {
     }
 
     return new Player(playerInit)
+}
+
+export async function intensityShuffle(playlist: PlaylistObject, decreasing: boolean): Promise<string[]> {
+    const tracks = playlist.tracks.map(({ track }) => track)
+    const audioFeatures = await TrackService.getAudioFeatures(tracks)
+
+    const sorted = audioFeatures?.sort((a, b) => a.energy - b.energy)
+    if (!sorted) {
+        return []
+    }
+
+    if (decreasing) {
+        sorted.reverse()
+    }
+
+    return sorted.map(({ uri }) => uri)
 }
