@@ -83,6 +83,13 @@ export default class App extends React.Component<{}, AuthenticationContextObject
             console.log(success)
         })
 
+        player.on("ready", (device) => {
+            const player = this.state.player
+            player!._options.id = device.device_id
+
+            this.setState({ ...this.state, player: player })
+        })
+
         this.setState({ ...this.state, authToken: token, player: player })
         AuthService.refreshTimer(token, this.refreshTokenCallback)
     }
