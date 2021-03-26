@@ -33,6 +33,7 @@ export async function getSpotifyPlayer(token: AuthToken) {
 export async function intensityShuffle(playlist: PlaylistObject, decreasing: boolean): Promise<string[]> {
     const tracks = playlist.tracks.map(({ track }) => track)
     const audioFeatures = await TrackService.getAudioFeatures(tracks)
+    console.log(audioFeatures)
 
     const sorted = audioFeatures?.sort((a, b) => a.energy - b.energy)
     if (!sorted) {
