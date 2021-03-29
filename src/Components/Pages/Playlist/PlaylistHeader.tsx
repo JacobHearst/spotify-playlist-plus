@@ -1,10 +1,10 @@
 import React from "react"
 import { Button, ButtonGroup, Col, Dropdown, Image, Row } from "react-bootstrap"
+import PlayerEndpoints from "../../../Endpoints/Player"
+import TrackService from "../../../Services/TrackService"
 import {  CaretDownFill } from "react-bootstrap-icons"
-import { startResume } from "../../../Endpoints/Player"
 import { AuthenticationContext } from "../../../Models/Authentication"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
-import { intensityShuffle } from "../../../Services/PlayerService"
 import { msToSentence } from "../../../Services/Utility"
 
 interface PlaylistHeaderProps {
@@ -28,8 +28,10 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
     playByIntensity(decreasing: boolean = false) {
         if (this.state.playlist && this.context.player) {
             const deviceId = this.context.player._options.id
-            intensityShuffle(this.state.playlist, decreasing).then(uris => {
-                startResume(deviceId, uris)
+            const tracks = this.state.playlist.tracks.map(({ track }) => track)
+            TrackService.intensitySort(tracks, decreasing).then(tracks => {
+                const uris = tracks.map(({ uri }) => uri)
+                PlayerEndpoints.startResume(deviceId, uris)
             })
         }
     }

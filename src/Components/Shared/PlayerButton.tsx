@@ -1,7 +1,7 @@
 import React from "react"
 import { Button } from "react-bootstrap"
 import { TrackSymbols } from "../../Constants/Symbols"
-import * as PlayerEndpoints from "../../Endpoints/Player"
+import PlayerEndpoints from "../../Endpoints/Player"
 import { AuthenticationContext } from "../../Models/Authentication"
 import { Spotify } from "../../Models/SpotifyObjects/PlayerObjects"
 

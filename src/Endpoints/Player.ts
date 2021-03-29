@@ -24,14 +24,15 @@ export default class PlayerEndpoints {
     }
 }
 
-// eslint-disable
 // used these before implementing the sdk. They shouldn't be used unless we 
 // would want to allow the user to transfer playback to another device and continue listening
+// eslint-disable-next-line
 async function getAvailableDevices() {
     const devices: DeviceObject[] = (await axiosInstance.get(`${basePlaybackURL}/devices`)).data.devices
     return devices
 }
 
+// eslint-disable-next-line
 async function transferPlayback(device_id: string) {
     await axiosInstance.put(`${basePlaybackURL}`, { device_ids: [device_id] })
 }
