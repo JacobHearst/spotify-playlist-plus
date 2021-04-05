@@ -34,6 +34,7 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                 <thead>
                     <tr>
                         <th></th>
+                        <th>#</th>
                         <th>Title</th>
                         <th>Artist(s)</th>
                         <th>Album</th>
@@ -42,7 +43,7 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.tracks.map((track, index) => (
+                    {this.props.tracks!.map((track, index) => (
                         <TrackTableItem
                             key={track.id}
                             track={track}

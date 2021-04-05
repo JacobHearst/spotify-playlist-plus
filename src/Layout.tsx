@@ -5,7 +5,12 @@ import { AuthenticationContext, AuthenticationContextObject } from "./Models/Aut
 import { Container, Row, Col, Button } from "react-bootstrap"
 import PlaylistList from "./Components/Shared/PlaylistList"
 
-export default class Layout extends React.Component<{children: PropTypes.ReactNodeArray}, {}> {
+interface LayoutProps {
+    children: PropTypes.ReactNodeArray
+}
+
+export default class Layout extends React.Component {
+
     render() {
         return (
             <AuthenticationContext.Consumer>
@@ -27,10 +32,10 @@ export default class Layout extends React.Component<{children: PropTypes.ReactNo
                                     </Col>
                                 </Row>
                                 <Row className="flex-grow-1">
-                                    <Col md="3" className="no-float" id="left-content-container">
-                                        <PlaylistList playlists={[]} />
+                                    <Col md="3" className="no-float pt-3" id="left-content-container">
+                                        <PlaylistList />
                                     </Col>
-                                    <Col md="9" className="no-float" id="right-content-container">
+                                    <Col md="9" className="no-float pt-3">
                                         {this.props.children}
                                     </Col>
                                 </Row>

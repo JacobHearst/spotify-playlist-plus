@@ -1,20 +1,38 @@
 import React from "react"
-import { PlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
+import { ListGroup } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import { SimplifiedPlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
+import PlaylistService from "../../Services/PlaylistService"
 
-interface PlaylistListProps {
-    playlists: PlaylistObject[]
+interface PlaylistListState {
+    playlists: SimplifiedPlaylistObject[]
 }
 
-interface PlaylistListState extends PlaylistListProps {}
-
-export default class PlaylistList extends React.Component<PlaylistListProps, PlaylistListState> {
-    constructor(props: PlaylistListProps) {
+export default class PlaylistList extends React.Component<{}, PlaylistListState> {
+    constructor(props: {}) {
         super(props)
-        this.state = { ...props }
+        this.state = { playlists: [] }
+
+        PlaylistService.getUserPlaylistsList().then((playlists) => {
+            if (playlists) {
+                this.setState({ ...this.state, playlists })
+            }
+        })
     }
+
+
     render() {
         return (
-            <p>Playlists: {this.state.playlists.length}</p>
+            <React.Fragment>
+                <h2>Playlists</h2>
+                <ListGroup>
+                    {this.state.playlists.map((playlist) => (
+                        <Link key={playlist.id} to={`/spotify-playlist-plus/playlist/${playlist.id}`}>
+                            <ListGroup.Item>{playlist.name}</ListGroup.Item>
+                        </Link>
+                    ))}
+                </ListGroup>
+            </React.Fragment>
         )
     }
 }

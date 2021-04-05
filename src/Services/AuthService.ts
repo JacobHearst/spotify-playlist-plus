@@ -7,7 +7,7 @@ import { GetTokenRequest } from "../Models/Requests/AuthenticationRequests"
 export default class AuthService {
     // scopes that are needed 
     static scopes : string[] = ["user-modify-playback-state", "user-read-playback-state", "streaming", 
-        "user-read-email", "user-read-private"]
+        "user-read-email", "user-read-private", "playlist-read-private"]
 
     constructor() {}
 

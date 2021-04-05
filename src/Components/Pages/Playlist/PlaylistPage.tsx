@@ -1,23 +1,19 @@
 import React from "react"
 import { Container } from "react-bootstrap"
-import { match } from "react-router-dom"
+import { RouteComponentProps } from "react-router"
 import PlaylistService from "../../../Services/PlaylistService"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 import PlaylistZeroState from "./PlaylistZeroState"
 
-interface PlaylistPageProps {
-    match: match<{id: string}>
-}
-
 interface PlaylistPageState {
-    playlistId: string,
+    playlistId: string
     playlist?: PlaylistObject
 }
 
-export default class PlaylistPage extends React.Component<PlaylistPageProps, PlaylistPageState> {
-    constructor(props: PlaylistPageProps) {
+export default class PlaylistPage extends React.Component<RouteComponentProps<{id: string}>, PlaylistPageState> {
+    constructor(props: RouteComponentProps<{ id: string }>) {
         super(props)
         this.state = {
             playlistId: props.match.params.id
@@ -28,8 +24,7 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
     }
 
     loadPlaylist() {
-        console.log("Loading playlist")
-        PlaylistService.getPlaylist(this.state.playlistId).then((playlist) => {
+        PlaylistService.getPlaylist(this.props.match.params.id).then((playlist) => {
             if (playlist) {
                 this.setState({ ...this.state, playlist })
             } else {
