@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react"
-import { Button } from "react-bootstrap"
+import { Button, Container } from "react-bootstrap"
 import { AuthenticationContext } from "../../Models/Authentication"
 
 export default function LandingPage() {
     return (
-        <div>
+        <Container fluid className="text-center mt-5">
             <h2>Spotify Playlist+</h2>
             {logInButton()}
-        </div>
+        </Container>
     )
 }
 // To view Spotify login API steps head to: https://developer.spotify.com/documentation/general/guides/authorization-guide/
@@ -23,7 +23,7 @@ function logInButton(): ReactNode {
 
                 return (
                     <a href={href}>
-                        <Button variant="outline-success" disabled={!href}>Spotify Login</Button>
+                        <Button variant="outline-success" disabled={!href}>Login</Button>
                     </a>
                 )
             }}
