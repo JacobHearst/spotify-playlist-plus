@@ -12,7 +12,7 @@ import { initAxios } from "./Endpoints/AxiosConfig"
 import AuthService from "./Services/AuthService"
 import { getSpotifyPlayer } from "./Services/PlayerService"
 import { Spotify } from "./Models/SpotifyObjects/PlayerObjects"
-import Layout from "./Components/Shared/Layout"
+import Layout from "./Layout"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -60,25 +60,19 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         let landingElement = <LandingPage />
         if (this.state.authToken) {
             landingElement = <HomePage />
-        } else {
-            if (window.location.pathname != pageURL) {
-                window.location.href = pageURL
-            }
         }
 
         return (
-            <main>
-                <AuthenticationContext.Provider value={this.state}>
-                    <Layout>
-                        <Route exact path={pageURL}>
-                            {landingElement}
-                        </Route>
-                        <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
-                        <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
-                        <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
-                    </Layout>
-                </AuthenticationContext.Provider>
-            </main>
+            <AuthenticationContext.Provider value={this.state}>
+                <Layout>
+                    <Route exact path={pageURL}>
+                        {landingElement}
+                    </Route>
+                    <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
+                    <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
+                    <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
+                </Layout>
+            </AuthenticationContext.Provider>
         )
     }
 

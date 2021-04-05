@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react"
+import { Button } from "react-bootstrap"
 import { AuthenticationContext } from "../../Models/Authentication"
 
 export default function LandingPage() {
     return (
         <div>
-            <h2>Spotify Playlist Plus</h2>
+            <h2>Spotify Playlist+</h2>
             {logInButton()}
         </div>
     )
@@ -22,7 +23,7 @@ function logInButton(): ReactNode {
 
                 return (
                     <a href={href}>
-                        <button disabled={!href}>Spotify Login</button>
+                        <Button variant="outline-success" disabled={!href}>Spotify Login</Button>
                     </a>
                 )
             }}

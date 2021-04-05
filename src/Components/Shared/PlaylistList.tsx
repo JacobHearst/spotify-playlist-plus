@@ -1,5 +1,5 @@
 import React from "react"
-import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
+import { PlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
 
 interface PlaylistListProps {
     playlists: PlaylistObject[]
@@ -8,11 +8,13 @@ interface PlaylistListProps {
 interface PlaylistListState extends PlaylistListProps {}
 
 export default class PlaylistList extends React.Component<PlaylistListProps, PlaylistListState> {
+    constructor(props: PlaylistListProps) {
+        super(props)
+        this.state = { ...props }
+    }
     render() {
         return (
-            <React.Fragment>
-                <h1>Playlists:</h1>
-            </React.Fragment>
+            <p>Playlists: {this.state.playlists.length}</p>
         )
     }
 }
