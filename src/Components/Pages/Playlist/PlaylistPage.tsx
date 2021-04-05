@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap"
 import { match } from "react-router-dom"
 import PlaylistService from "../../../Services/PlaylistService"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
-import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 import PlaylistZeroState from "./PlaylistZeroState"
@@ -49,7 +48,6 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
 
         return (
             <Container fluid>
-                <Navbar/>
                 <PlaylistHeader playlist={this.state.playlist}/>
                 <TrackTable tracks={tracks} />
             </Container>

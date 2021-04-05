@@ -1,17 +1,21 @@
 import React from "react"
-import { AuthenticationContext } from "../../../Models/Authentication"
-import Navbar from "../../Shared/Navbar"
+import { Col, Container, Row } from "react-bootstrap"
+import PlaylistList from "./PlaylistList"
+import "./HomePage.css"
 
 export default class HomePage extends React.Component {
-    static contextType = AuthenticationContext
-
     render() {
         return (
-            <React.Fragment>
-                <p>Home page</p>
-                <Navbar/>
-                <button onClick={this.context.logOut}>Log out</button>
-            </React.Fragment>
+            <Container fluid className="h-100">
+                <Row className="h-100">
+                    <Col md="3" className="no-float" id="left-content-container">
+                        <PlaylistList playlists={[]}/>
+                    </Col>
+                    <Col md="9" className="no-float" id="right-content-container">
+
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }

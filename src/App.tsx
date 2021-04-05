@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Switch } from "react-router-dom"
+import { Route } from "react-router-dom"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import PlaylistPage from "./Components/Pages/Playlist/PlaylistPage"
@@ -12,6 +12,7 @@ import { initAxios } from "./Endpoints/AxiosConfig"
 import AuthService from "./Services/AuthService"
 import { getSpotifyPlayer } from "./Services/PlayerService"
 import { Spotify } from "./Models/SpotifyObjects/PlayerObjects"
+import Layout from "./Components/Shared/Layout"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -59,19 +60,23 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         let landingElement = <LandingPage />
         if (this.state.authToken) {
             landingElement = <HomePage />
+        } else {
+            if (window.location.pathname != pageURL) {
+                window.location.href = pageURL
+            }
         }
 
         return (
             <main>
                 <AuthenticationContext.Provider value={this.state}>
-                    <Switch>
+                    <Layout>
                         <Route exact path={pageURL}>
                             {landingElement}
                         </Route>
                         <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
                         <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
                         <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
-                    </Switch>
+                    </Layout>
                 </AuthenticationContext.Provider>
             </main>
         )
