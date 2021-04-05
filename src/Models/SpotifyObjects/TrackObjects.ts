@@ -1,5 +1,5 @@
 import { SimplifiedAlbumObject } from "./AlbumObjects";
-import { ArtistObject } from "./ArtistObjects";
+import { ArtistObject, SimplifiedArtistObject } from "./ArtistObjects";
 
 /**
  * Response objects that match the Spotify Tracks API
@@ -16,5 +16,17 @@ export interface TrackObject {
     name: string
     popularity: number
     track_number: number
+    uri: string
+}
+
+export interface SimplifiedTrackObject {
+    artists: SimplifiedArtistObject[]
+    duration_ms: number
+    explicit: boolean
+    href: string
+    id: string
+    is_playable: boolean
+    name: string
+    preview_url: string
     uri: string
 }

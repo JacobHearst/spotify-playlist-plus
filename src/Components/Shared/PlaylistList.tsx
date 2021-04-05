@@ -2,7 +2,7 @@ import React from "react"
 import { ListGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { SimplifiedPlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
-import PlaylistService from "../../Services/PlaylistService"
+import UserService from "../../Services/UserService"
 
 interface PlaylistListState {
     playlists: SimplifiedPlaylistObject[]
@@ -13,7 +13,7 @@ export default class PlaylistList extends React.Component<{}, PlaylistListState>
         super(props)
         this.state = { playlists: [] }
 
-        PlaylistService.getUserPlaylistsList().then((playlists) => {
+        UserService.getPlaylists().then((playlists) => {
             if (playlists) {
                 this.setState({ ...this.state, playlists })
             }

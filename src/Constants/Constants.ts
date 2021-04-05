@@ -10,10 +10,4 @@ const dev = {
     redirectUri: "http://localhost:3000/spotify-playlist-plus"
 }
 
-// export const scopes = [
-//     "user-top-read",
-//     "user-read-currently-playing",
-//     "user-read-playback-state",
-// ]
-
 export const config = process.env.NODE_ENV == "development" ? dev : prod

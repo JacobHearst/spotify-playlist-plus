@@ -1,5 +1,5 @@
 import PlaylistEndpoints from "../Endpoints/Playlists"
-import { PlaylistObject, SimplifiedPlaylistObject } from "../Models/SpotifyObjects/PlaylistObjects"
+import { PlaylistObject } from "../Models/SpotifyObjects/PlaylistObjects"
 
 export default class PlaylistService {
     static async getPlaylist(id: string): Promise<PlaylistObject | undefined> {
@@ -12,15 +12,6 @@ export default class PlaylistService {
         return {
             ...response.data,
             tracks
-        }
-    }
-
-    static async getUserPlaylistsList(): Promise<SimplifiedPlaylistObject[] | undefined> {
-        try {
-            const response = await PlaylistEndpoints.getCurrentUserPlaylists()
-            return response.data.items
-        } catch (error) {
-            console.error(`Failed to get users current playlists. Error: ${error}`)
         }
     }
 }
