@@ -8,24 +8,26 @@ interface TrackTableProps {
     currentPlayingTrack?: number
 }
 
-interface TrackTableState extends TrackTableProps {}
+interface TrackTableState {
+    currentlyPlayingTrack?: number
+}
 
 export default class TrackTable extends React.Component<TrackTableProps, TrackTableState> {
     constructor(props: TrackTableProps) {
         super(props)
-        this.state = { tracks: props.tracks, currentPlayingTrack: -1 }
+        this.state = { currentlyPlayingTrack: -1 }
         this.updateCurrentTrack.bind(this)
     }
 
     updateCurrentTrack = (trackNumber: number) => {
-        const trackPaused = trackNumber == this.state.currentPlayingTrack
+        const trackPaused = trackNumber == this.state.currentlyPlayingTrack
         const currentlyPlayingTrack = trackPaused ? -1 : trackNumber
 
-        this.setState({ ...this.state, currentPlayingTrack: currentlyPlayingTrack })
+        this.setState({ currentlyPlayingTrack })
     }
 
     render() {
-        if (!this.state.tracks) {
+        if (!this.props.tracks) {
             return <p>Loading tracks</p>
         }
 
@@ -43,15 +45,18 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.tracks!.map((track, index) => (
-                        <TrackTableItem
-                            key={track.id}
-                            track={track}
-                            index={index}
-                            updateCurrentlyPlayingCallback={this.updateCurrentTrack}
-                            currentlyPlaying={this.state.currentPlayingTrack == index}
-                        />
-                    ))}
+                    {this.props.tracks!.map((track, index) => {
+                        console.log(track.name)
+                        return (
+                            <TrackTableItem
+                                key={`${track.id}-${index}`}
+                                track={track}
+                                index={index}
+                                updateCurrentlyPlayingCallback={this.updateCurrentTrack}
+                                currentlyPlaying={this.state.currentlyPlayingTrack == index}
+                            />
+                        )
+                    })}
                 </tbody>
             </Table>
         )
