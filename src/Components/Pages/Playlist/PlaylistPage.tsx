@@ -7,26 +7,33 @@ import TrackTable from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 import PlaylistZeroState from "./PlaylistZeroState"
 
+type PlaylistPageProps = RouteComponentProps<{ id: string }>
 interface PlaylistPageState {
     playlistId: string
     playlist?: PlaylistObject
 }
 
-export default class PlaylistPage extends React.Component<RouteComponentProps<{id: string}>, PlaylistPageState> {
+export default class PlaylistPage extends React.Component<PlaylistPageProps, PlaylistPageState> {
     constructor(props: RouteComponentProps<{ id: string }>) {
         super(props)
-        this.state = {
-            playlistId: props.match.params.id
-        }
+        const playlistId = props.match.params.id
+        this.state = { playlistId }
 
         this.loadPlaylist = this.loadPlaylist.bind(this)
-        this.loadPlaylist()
+        this.loadPlaylist(playlistId)
     }
 
-    loadPlaylist() {
-        PlaylistService.getPlaylist(this.props.match.params.id).then((playlist) => {
+    componentDidUpdate(prevProps: PlaylistPageProps) {
+        if (this.props.location !== prevProps.location) {
+            const playlistId = this.props.match.params.id
+            this.loadPlaylist(playlistId)
+        }
+    }
+
+    loadPlaylist(playlistId: string) {
+        PlaylistService.getPlaylist(playlistId).then((playlist) => {
             if (playlist) {
-                this.setState({ ...this.state, playlist })
+                this.setState({ playlistId, playlist })
             } else {
                 // Error happened, check console. In future, display error to user?
             }

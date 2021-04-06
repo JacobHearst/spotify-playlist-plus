@@ -6,30 +6,21 @@ import PlayerButton from "../PlayerButton"
 import TrackDropDown from "./TrackDropDown"
 import "./TrackTable.css"
 
-/* eslint-disable */
 interface TrackTableItemProps {
     track: TrackObject
+    // eslint-disable-next-line
     updateCurrentlyPlayingCallback(trackNumber: number): void
     currentlyPlaying?: boolean
     index: number
 }
-/* eslint-enable */
 
-interface TrackTableItemState {
-    track: TrackObject
-}
 
-export default class TrackTableItem extends React.Component<TrackTableItemProps, TrackTableItemState> {
-    constructor(props: TrackTableItemProps) {
-        super(props)
-        this.state = { track: props.track }
-    }
-
+export default class TrackTableItem extends React.Component<TrackTableItemProps, {}> {
     render() {
-        const artistNames = this.state.track.artists.map((artist, index, array) => {
+        const artistNames = this.props.track.artists.map((artist, index, array) => {
+            // Don't put a comma and space after the last artist
             if (index == array.length - 1) {
-                // Don't put a comma and space after the last artist
-                return <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+                return <Link key={artist.id} to={`/artists/${artist.id}`}>{artist.name}</Link>
             }
 
             return (
@@ -44,16 +35,16 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
                 <td>
                     <PlayerButton
                         currentlyPlaying={this.props.currentlyPlaying}
-                        uris={[this.state.track.uri]}
+                        uris={[this.props.track.uri]}
                         updateCurrentlyPlayingCallback={this.props.updateCurrentlyPlayingCallback}
                         index={this.props.index}></PlayerButton>
                 </td>
-                <td><span className="text-muted">{this.state.track.track_number}</span></td>
-                <td>{this.state.track.name}</td>
+                <td><span className="text-muted">{this.props.track.track_number}</span></td>
+                <td>{this.props.track.name}</td>
                 <td>{artistNames}</td>
-                <td>{this.state.track.album?.name ?? "No album"}</td>
-                <td>{msToTimestamp(this.state.track.duration_ms)}</td>
-                <td><TrackDropDown track={this.state.track} /></td>
+                <td>{this.props.track.album?.name ?? "No album"}</td>
+                <td>{msToTimestamp(this.props.track.duration_ms)}</td>
+                <td><TrackDropDown track={this.props.track} /></td>
             </tr>
         )
     }
