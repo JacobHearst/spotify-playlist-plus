@@ -8,11 +8,7 @@ const baseURL = "https://api.spotify.com/v1/playlists"
 
 export default class PlaylistEndpoints {
     static getPlaylistById(id: string) {
-        try {
-            return axiosInstance.get<GetPlaylistResponse>(`${baseURL}/${id}`)
-        } catch (error) {
-            console.error(`Failed to get playlist with id: "${id}". Error: ${error}`)
-        }
+        return axiosInstance.get<GetPlaylistResponse>(`${baseURL}/${id}`)
     }
 
     static getCurrentUserPlaylists(): Promise<AxiosResponse<Paginated<SimplifiedPlaylistObject>>> {
