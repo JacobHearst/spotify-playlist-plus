@@ -18,3 +18,22 @@ export interface TrackObject {
     track_number: number
     uri: string
 }
+
+export interface AudioFeaturesObject {
+    acousticness: number
+    analysis_url: string
+    danceability: number
+    duration_ms: number
+    energy: number
+    id: string
+    instrumentalness: number
+    key: number
+    liveness: number
+    loudness: number
+    mode: number // 0 is minor, 1 = Major
+    speechiness: number
+    tempo: number
+    time_signature: number
+    uri: string
+    valence: number // "Positiveness"
+}
