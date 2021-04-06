@@ -43,7 +43,7 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
     }
 
     onSearchSelect(playlist: SimplifiedPlaylistObject) {
-        let newPlaylist: PlaylistObject = {
+        const newPlaylist: PlaylistObject = {
             description: playlist.description,
             href: playlist.href,
             id: playlist.id,
