@@ -16,4 +16,9 @@ axiosInstance.interceptors.response.use((response) => {return response}, (error)
     return Promise.reject(error)
 })
 
+// generic get request to any url provided
+export async function getRequest(url: string): Promise<any> {
+    return await axiosInstance.get(url)
+}
+
 export default axiosInstance

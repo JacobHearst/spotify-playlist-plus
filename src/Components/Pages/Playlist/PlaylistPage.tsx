@@ -2,18 +2,20 @@ import React from "react"
 import { Container } from "react-bootstrap"
 import { match } from "react-router-dom"
 import PlaylistService from "../../../Services/PlaylistService"
-import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
+import { PlaylistObject, SimplifiedPlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 import PlaylistZeroState from "./PlaylistZeroState"
+import SearchBar from "../../Shared/SearchBar"
+import { getRequest } from "../../../Endpoints/AxiosConfig"
 
 interface PlaylistPageProps {
-    match: match<{id: string}>
+    match?: match<{ id: string }>
 }
 
 interface PlaylistPageState {
-    playlistId: string,
+    playlistId: string
     playlist?: PlaylistObject
 }
 
@@ -21,10 +23,11 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
     constructor(props: PlaylistPageProps) {
         super(props)
         this.state = {
-            playlistId: props.match.params.id
+            playlistId: props.match?.params.id ?? "",
         }
 
         this.loadPlaylist = this.loadPlaylist.bind(this)
+        this.onSearchSelect = this.onSearchSelect.bind(this)
         this.loadPlaylist()
     }
 
@@ -39,19 +42,52 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
         })
     }
 
-    render() {
-        if (!this.state.playlist) {
-            return (<PlaylistZeroState/>)
+    onSearchSelect(playlist: SimplifiedPlaylistObject) {
+        let newPlaylist: PlaylistObject = {
+            description: playlist.description,
+            href: playlist.href,
+            id: playlist.id,
+            images: playlist.images,
+            name: playlist.name,
+            owner: playlist.owner,
+            public: playlist.public,
+            uri: playlist.uri,
+            tracks: [],
         }
-        
-        // Extract the TrackObjects from the PlaylistTrackObjects
-        const tracks = this.state.playlist.tracks.map(({ track }) => track)
+
+        getRequest(playlist.tracks.href).then((tracks) => {
+            newPlaylist.tracks = tracks.data.items
+
+            this.setState({
+                ...this.state,
+                playlist: newPlaylist,
+            })
+        })
+    }
+
+    render() {
+        let body
+
+        if (!this.state.playlist) {
+            body = <PlaylistZeroState />
+        } else {
+            // Extract the TrackObjects from the PlaylistTrackObjects
+            const tracks = this.state.playlist?.tracks.map(({ track }) => track)
+            body = (
+                <div>
+                    <PlaylistHeader playlist={this.state.playlist} />
+                    <TrackTable tracks={tracks} />
+                </div>
+            )
+        }
 
         return (
             <Container fluid>
-                <Navbar/>
-                <PlaylistHeader playlist={this.state.playlist}/>
-                <TrackTable tracks={tracks} />
+                <Navbar />
+                <div className="search-container">
+                    <SearchBar onSearchSelect={this.onSearchSelect} playlist={true} />
+                </div>
+                {body}
             </Container>
         )
     }

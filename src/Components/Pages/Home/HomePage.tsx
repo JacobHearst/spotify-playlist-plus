@@ -1,6 +1,7 @@
 import React from "react"
 import { AuthenticationContext } from "../../../Models/Authentication"
 import Navbar from "../../Shared/Navbar"
+import SearchBar from "../../Shared/SearchBar"
 
 export default class HomePage extends React.Component {
     static contextType = AuthenticationContext
@@ -8,9 +9,22 @@ export default class HomePage extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <p>Home page</p>
-                <Navbar/>
-                <button onClick={this.context.logOut}>Log out</button>
+                <Navbar />
+                <div>
+                    <button className="log-out" onClick={this.context.logOut}>
+                        Log out
+                    </button>
+                    <div className="home-page">
+                        <SearchBar onSearchSelect={() => {}} artist={true} album={true} track={true} playlist={true} />
+                    </div>
+                </div>
+                {/* 
+                <div className="home-page">
+                    <SearchBar onSearchSelect={() => {}} />
+                    <button className="log-out" onClick={this.context.logOut}>
+                        Log out
+                    </button>
+                </div> */}
             </React.Fragment>
         )
     }
