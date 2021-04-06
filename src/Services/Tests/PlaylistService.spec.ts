@@ -77,34 +77,4 @@ describe("Playlist service", () => {
             })
         })
     })
-
-    describe("getUserPlaylistsList", () => {
-        it("should return a list of the users playlists as simplified playlist objects", (done) => {
-            const mockResponse: AxiosResponse<Paginated<SimplifiedPlaylistObject>> = {
-                data: {
-                    items: [
-                        { id: "mockPlaylist1" }, { id: "mockPlaylist2" }
-                    ] as SimplifiedPlaylistObject[]
-                } as Paginated<SimplifiedPlaylistObject>
-            } as AxiosResponse<Paginated<SimplifiedPlaylistObject>>
-
-            const mockPromise = new Promise<AxiosResponse<Paginated<SimplifiedPlaylistObject>>>((resolve) => resolve(mockResponse))
-            PlaylistEndpoints.getCurrentUserPlaylists = jest.fn(() => mockPromise)
-            PlaylistService.getUserPlaylistsList().then(playlists => {
-                expect(playlists).toEqual(mockResponse.data.items)
-                done()
-            })
-        })
-
-        it("should log an error and return undefined if an error occurs", (done) => {
-            const mockPromise = new Promise<AxiosResponse<Paginated<SimplifiedPlaylistObject>>>((_, reject) => reject())
-            console.error = jest.fn()
-            PlaylistEndpoints.getCurrentUserPlaylists = jest.fn(() => mockPromise)
-            PlaylistService.getUserPlaylistsList().then(playlists => {
-                expect(playlists).toBeUndefined()
-                expect(console.error).toBeCalled()
-                done()
-            })
-        })
-    })
 })

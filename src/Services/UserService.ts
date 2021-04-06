@@ -21,11 +21,11 @@ export default class UserService {
     }
 
     static async getPlaylists(): Promise<SimplifiedPlaylistObject[] | undefined> {
-        try {
-            const response = await UserEndpoints.getPlaylists()
-            return response.data.items
-        } catch (error) {
-            console.error(`Failed to get users current playlists. Error: ${error}`)
-        }
+        return UserEndpoints.getPlaylists()
+            .then(({ data: { items }}) => items)
+            .catch(error => {
+                console.error(`Failed to get users current playlists. Error: ${error}`)
+                return undefined
+            })
     }
 }
