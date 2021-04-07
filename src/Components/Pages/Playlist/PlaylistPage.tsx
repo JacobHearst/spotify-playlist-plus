@@ -11,7 +11,7 @@ import SearchBar from "../../Shared/SearchBar"
 import { getRequest } from "../../../Endpoints/AxiosConfig"
 
 interface PlaylistPageProps {
-    match?: match<{ id: string }>
+    match: match<{ id: string }>
 }
 
 interface PlaylistPageState {
@@ -23,7 +23,7 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
     constructor(props: PlaylistPageProps) {
         super(props)
         this.state = {
-            playlistId: props.match?.params.id ?? "",
+            playlistId: props.match.params.id,
         }
 
         this.loadPlaylist = this.loadPlaylist.bind(this)
@@ -44,14 +44,7 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
 
     onSearchSelect(playlist: SimplifiedPlaylistObject) {
         const newPlaylist: PlaylistObject = {
-            description: playlist.description,
-            href: playlist.href,
-            id: playlist.id,
-            images: playlist.images,
-            name: playlist.name,
-            owner: playlist.owner,
-            public: playlist.public,
-            uri: playlist.uri,
+            ...playlist,
             tracks: [],
         }
 

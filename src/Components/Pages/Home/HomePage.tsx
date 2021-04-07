@@ -18,13 +18,6 @@ export default class HomePage extends React.Component {
                         <SearchBar onSearchSelect={() => {}} artist={true} album={true} track={true} playlist={true} />
                     </div>
                 </div>
-                {/* 
-                <div className="home-page">
-                    <SearchBar onSearchSelect={() => {}} />
-                    <button className="log-out" onClick={this.context.logOut}>
-                        Log out
-                    </button>
-                </div> */}
             </React.Fragment>
         )
     }

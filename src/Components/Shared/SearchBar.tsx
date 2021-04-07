@@ -9,7 +9,8 @@ import { ArtistObject } from "../../Models/SpotifyObjects/ArtistObjects"
 import { SimplifiedAlbumObject } from "../../Models/SpotifyObjects/AlbumObjects"
 import { TrackObject } from "../../Models/SpotifyObjects/TrackObjects"
 import { SimplifiedPlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
-import { searchTypes, items, responseItems } from "../../Models/Custom"
+import { ResponseObjects, ResponseItems, SearchTypes } from "../../Models/Custom"
+import { createQuery } from "../../Services/SearchService"
 
 interface SearchBarProps {
     artist?: boolean
@@ -17,11 +18,10 @@ interface SearchBarProps {
     track?: boolean
     album?: boolean
     // eslint-disable-next-line no-unused-vars
-    onSearchSelect(item: items): void
+    onSearchSelect(item: ResponseObjects): void
 }
 
 interface SearchBarState {
-    // items?: Array<items> | undefined
     items?: (ArtistObject | SimplifiedAlbumObject | TrackObject | SimplifiedPlaylistObject)[]
     searchVal: string
     types: {
@@ -55,18 +55,13 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
             return
         }
 
-        GetSearchResults(this.createQuery()).then((res) => {
-            let itms: Array<items> = []
+        const typesToSearch = Object.keys(this.state.types).filter((t) => this.state.types[t as SearchTypes])
+        const searchVal = (e.target as HTMLInputElement).defaultValue
 
-            for (const i in res) {
-                if (res[i as responseItems]) {
-                    itms = itms.concat(res[i as responseItems]!.items)
-                }
-            }
-
+        GetSearchResults(createQuery(searchVal, typesToSearch)).then((searchResponseItems) => {
             this.setState({
                 ...this.state,
-                items: itms,
+                items: searchResponseItems,
             })
         })
     }
@@ -146,25 +141,5 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
                 </Accordion>
             </div>
         )
-    }
-
-    createQuery(): string {
-        let query = `q=${this.state.searchVal}`
-
-        if (
-            !Object.entries(this.state.types).every((k) => {
-                !k[1]
-            })
-        ) {
-            query += "&type="
-        }
-
-        for (const type in this.state.types) {
-            if (this.state.types[type as searchTypes]) {
-                query += type
-            }
-        }
-
-        return query
     }
 }

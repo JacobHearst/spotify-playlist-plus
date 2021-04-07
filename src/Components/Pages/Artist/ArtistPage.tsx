@@ -69,7 +69,7 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
         if (!this.state.artist) {
             body = (
                 <React.Fragment>
-                    <p>No Currenlty Selected Artist. Try searching for one</p>
+                    <p>No Currently Selected Artist. Try searching for one</p>
                 </React.Fragment>
             )
         } else {
