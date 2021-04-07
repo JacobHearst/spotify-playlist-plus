@@ -1,6 +1,6 @@
 import React from "react"
 import { Container } from "react-bootstrap"
-import { match } from "react-router-dom"
+import { RouteComponentProps } from "react-router"
 import PlaylistService from "../../../Services/PlaylistService"
 import { PlaylistObject, SimplifiedPlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import Navbar from "../../Shared/Navbar"
@@ -10,32 +10,38 @@ import PlaylistZeroState from "./PlaylistZeroState"
 import SearchBar from "../../Shared/SearchBar"
 import { getRequest } from "../../../Endpoints/AxiosConfig"
 
-interface PlaylistPageProps {
-    match: match<{ id: string }>
-}
-
+type PlaylistPageProps = RouteComponentProps<{ id: string }>
 interface PlaylistPageState {
     playlistId: string
     playlist?: PlaylistObject
 }
 
 export default class PlaylistPage extends React.Component<PlaylistPageProps, PlaylistPageState> {
-    constructor(props: PlaylistPageProps) {
+    constructor(props: RouteComponentProps<{ id: string }>) {
         super(props)
         this.state = {
             playlistId: props.match.params.id,
         }
 
-        this.loadPlaylist = this.loadPlaylist.bind(this)
         this.onSearchSelect = this.onSearchSelect.bind(this)
-        this.loadPlaylist()
+        const playlistId = props.match.params.id
+        this.state = { playlistId }
+
+        this.loadPlaylist = this.loadPlaylist.bind(this)
+        this.loadPlaylist(playlistId)
     }
 
-    loadPlaylist() {
-        console.log("Loading playlist")
-        PlaylistService.getPlaylist(this.state.playlistId).then((playlist) => {
+    componentDidUpdate(prevProps: PlaylistPageProps) {
+        if (this.props.location !== prevProps.location) {
+            const playlistId = this.props.match.params.id
+            this.loadPlaylist(playlistId)
+        }
+    }
+
+    loadPlaylist(playlistId: string) {
+        PlaylistService.getPlaylist(playlistId).then((playlist) => {
             if (playlist) {
-                this.setState({ ...this.state, playlist })
+                this.setState({ playlistId, playlist })
             } else {
                 // Error happened, check console. In future, display error to user?
             }

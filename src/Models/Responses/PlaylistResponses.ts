@@ -1,4 +1,4 @@
-import { PlaylistTrackObject } from "../SpotifyObjects/PlaylistObjects";
+import { PlaylistTrackObject, SimplifiedPlaylistObject } from "../SpotifyObjects/PlaylistObjects";
 import { ImageObject, PublicUserObject } from "../SpotifyObjects/SharedObjects";
 import { Paginated } from "./Shared";
 

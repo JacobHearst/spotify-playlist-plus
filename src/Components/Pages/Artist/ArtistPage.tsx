@@ -6,7 +6,6 @@ import { match } from "react-router-dom"
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import ArtistService from "../../../Services/ArtistService"
-import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 import SearchBar from "../../Shared/SearchBar"
 
@@ -126,13 +125,7 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
 
         return (
             <div>
-                <Container fluid>
-                    <Navbar />
-                    <div className="search-container">
-                        <SearchBar onSearchSelect={this.onSearchSelect} artist={true} />
-                    </div>
-                    {body}
-                </Container>
+                <Container fluid>{body}</Container>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import { ImageObject, PublicUserObject } from "./SharedObjects";
-import { TrackObject } from "./TrackObjects";
+import { TrackObject } from "./TrackObjects"
 
 /**
  * Response objects that match the Spotify Playlist API
@@ -24,21 +24,19 @@ export interface PlaylistTrackObject {
 }
 
 export interface SimplifiedPlaylistObject {
-    collaborative: boolean,
-    description: string,
-    external_urls: string,
-    href: string,
-    id: string,
-    images: ImageObject[],
-    name: string,
-    owner: PublicUserObject,
-    public: boolean,
-    uri: string,
-    type: string,
+    collaborative: boolean
+    description?: string
+    href: string
+    id: string
+    images: ImageObject[]
+    name: String
+    owner: PublicUserObject
+    public: boolean
     tracks: PlaylistTracksRefObject
+    uri: string
 }
 
-interface PlaylistTracksRefObject {
-    href: string,
+export interface PlaylistTracksRefObject {
+    ref: string
     total: number
 }

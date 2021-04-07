@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Switch } from "react-router-dom"
+import { Route, BrowserRouter as Router } from "react-router-dom"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import PlaylistPage from "./Components/Pages/Playlist/PlaylistPage"
@@ -12,6 +12,10 @@ import { initAxios } from "./Endpoints/AxiosConfig"
 import AuthService from "./Services/AuthService"
 import { getSpotifyPlayer } from "./Services/PlayerService"
 import { Spotify } from "./Models/SpotifyObjects/PlayerObjects"
+import Switch from "react-bootstrap/esm/Switch"
+import { Container, Row, Col, Button } from "react-bootstrap"
+import PlaylistList from "./Components/Shared/PlaylistList"
+import Navbar from "./Components/Shared/Navbar"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -56,31 +60,51 @@ export default class App extends React.Component<{}, AuthenticationContextObject
     render() {
         const pageURL = "/spotify-playlist-plus"
 
-        let landingElement = <LandingPage />
-        if (this.state.authToken) {
-            landingElement = <HomePage />
+        if (!this.state.authToken) {
+            return <AuthenticationContext.Provider value={this.state}>
+                <LandingPage />
+            </AuthenticationContext.Provider>
         }
 
         return (
-            <main>
-                <AuthenticationContext.Provider value={this.state}>
-                    <Switch>
-                        <Route exact path={pageURL}>
-                            {landingElement}
-                        </Route>
-                        <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
-                        <Route exact path={pageURL + "/artist/:id"} component={ArtistPage} />
-                        <Route exact path={pageURL + "/playlist/:id"} component={PlaylistPage} />
-                    </Switch>
-                </AuthenticationContext.Provider>
-            </main>
+            <AuthenticationContext.Provider value={this.state}>
+                <Router>
+                    <Container fluid className="h-100">
+                        <div className="h-100 d-flex flex-column">
+                            <Row id="navbar">
+                                <Col>
+                                    <b>Spotify Playlist+</b>
+                                </Col>
+                                <Col>
+                                    <Navbar />
+                                    <Button size="sm" variant="info" onClick={this.state.logOut} className="float-right">Log out</Button>
+                                </Col>
+                            </Row>
+                            <Row className="flex-grow-1">
+                                <Col md="3" className="no-float pt-3" id="left-content-container">
+                                    <PlaylistList />
+                                </Col>
+                                <Col md="9" className="no-float pt-3">
+                                    <Switch>
+                                        <Route exact path={pageURL} component={HomePage} />
+                                        <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
+                                        <Route path={pageURL + "/artist/:id"} component={ArtistPage} />
+                                        <Route path={pageURL + "/playlist/:id"} component={PlaylistPage} />
+                                    </Switch>
+                                </Col>
+                            </Row>
+                        </div>
+                    </Container>
+                </Router>
+
+            </AuthenticationContext.Provider>
         )
     }
 
     async refreshTokenCallback(token: AuthToken) {
         const player: Spotify.SpotifyPlayer = await getSpotifyPlayer(token)
-        player.connect().then((success) => {
-            console.log(success)
+        player.connect().catch((error) => {
+            console.error("Error connecting player:", error)
         })
 
         player.on("ready", (device) => {

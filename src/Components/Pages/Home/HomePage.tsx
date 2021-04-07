@@ -1,23 +1,49 @@
 import React from "react"
-import { AuthenticationContext } from "../../../Models/Authentication"
-import Navbar from "../../Shared/Navbar"
-import SearchBar from "../../Shared/SearchBar"
+import { Card } from "react-bootstrap"
+import { SimplifiedTrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
+import UserService from "../../../Services/UserService"
+import ArtistLinks from "../../Shared/ArtistLinks"
 
-export default class HomePage extends React.Component {
-    static contextType = AuthenticationContext
+interface HomePageState {
+    recentTracks: SimplifiedTrackObject[]
+}
+
+export default class HomePage extends React.Component<{}, HomePageState> {
+    constructor(props: {}) {
+        super(props)
+        UserService.getRecentTracks(10)
+            .then((recentTracks) => {
+                this.setState({ ...this.state, recentTracks })
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
+        this.state = {
+            recentTracks: [],
+        }
+    }
 
     render() {
+        const trackCards = this.state.recentTracks.map((track) => (
+            <Card key={track.id} className="p-3 m-3 d-inline-block">
+                <Card.Body>
+                    <Card.Title>{track.name}</Card.Title>
+                    <Card.Text className="text-muted">
+                        By:&nbsp;
+                        <ArtistLinks artists={track.artists} />
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+        ))
+
         return (
             <React.Fragment>
-                <Navbar />
-                <div>
-                    <button className="log-out" onClick={this.context.logOut}>
-                        Log out
-                    </button>
-                    <div className="home-page">
-                        <SearchBar onSearchSelect={() => {}} artist={true} album={true} track={true} playlist={true} />
-                    </div>
+                <h3>Recently listened to:</h3>
+                <div className="w-100" style={{ overflowX: "auto" }}>
+                    {trackCards}
                 </div>
+                <hr />
             </React.Fragment>
         )
     }
