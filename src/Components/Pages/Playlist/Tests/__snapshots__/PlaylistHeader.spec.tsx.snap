@@ -47,6 +47,39 @@ exports[`PlaylistHeader should properly display playlist information when a play
       0
        Songs. 
     </p>
+    <div
+      className="dropdown btn-group"
+      onKeyDown={[Function]}
+      role="group"
+    >
+      <button
+        className="btn btn-success"
+        disabled={true}
+        type="button"
+      >
+        Play
+      </button>
+      <button
+        aria-expanded={false}
+        aria-haspopup={true}
+        className="dropdown-toggle dropdown-toggle-split btn btn-success"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 16 16"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
 `;
