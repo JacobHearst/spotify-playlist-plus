@@ -6,7 +6,6 @@ import { match } from "react-router-dom"
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import ArtistService from "../../../Services/ArtistService"
-import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 
 interface ArtistPageProps {
@@ -54,7 +53,6 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
         if (!this.state.artist) {
             return (
                 <React.Fragment>
-                    <Navbar/>
                     <p>Loading Artist</p>
                 </React.Fragment>
             )
@@ -74,7 +72,6 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
 
         return (
             <Container fluid>
-                <Navbar />
                 {coverImage ?
                     <Image src={coverImage.url} />
                     : <p>Loading Image</p>

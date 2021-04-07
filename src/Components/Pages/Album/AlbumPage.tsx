@@ -4,7 +4,6 @@ import React from "react"
 // import { Track } from "../../../Models/Tracks"
 // import PlaylistHeader from "../Playlist/PlaylistHeader"
 // import AlbumZeroState from "./AlbumZeroState"
-import Navbar from "../../Shared/Navbar"
 export default class AlbumPage extends React.Component {
     
 
@@ -41,7 +40,6 @@ export default class AlbumPage extends React.Component {
 
         return (
             <div>
-                <Navbar></Navbar>  
                 <h1>Name</h1>
                 <img src="https://images-na.ssl-images-amazon.com/images/I/6123EInXGSL._SL1081_.jpg" height="300px" width="300px"></img>
             </div>  

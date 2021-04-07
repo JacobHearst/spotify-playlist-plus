@@ -7,13 +7,7 @@ interface TrackDropDownProps {
     track: TrackObject
 }
 
-interface TrackDropDownState extends TrackDropDownProps {}
-
-export default class TrackDropDown extends React.Component<TrackDropDownProps, TrackDropDownState> {
-    constructor(props: TrackDropDownProps) {
-        super(props)
-        this.state = { ...props }
-    }
+export default class TrackDropDown extends React.Component<TrackDropDownProps, {}> {
     render() {
         return (
             <Dropdown>
@@ -22,7 +16,7 @@ export default class TrackDropDown extends React.Component<TrackDropDownProps, T
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item href={this.state.track.uri}>Open in Spotify</Dropdown.Item>
+                    <Dropdown.Item href={this.props.track.uri}>Open in Spotify</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         )
