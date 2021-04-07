@@ -1,7 +1,7 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import { msToTimestamp } from "../../../Services/Utility"
+import ArtistLinks from "../ArtistLinks"
 import PlayerButton from "../PlayerButton"
 import TrackDropDown from "./TrackDropDown"
 import "./TrackTable.css"
@@ -17,19 +17,6 @@ interface TrackTableItemProps {
 
 export default class TrackTableItem extends React.Component<TrackTableItemProps, {}> {
     render() {
-        const artistNames = this.props.track.artists.map((artist, index, array) => {
-            // Don't put a comma and space after the last artist
-            if (index == array.length - 1) {
-                return <Link key={artist.id} to={`/artists/${artist.id}`}>{artist.name}</Link>
-            }
-
-            return (
-                <span key={artist.id}>
-                    <Link to={`/artist/${artist.id}`}>{artist.name}</Link>,&nbsp;
-                </span>
-            )
-        })
-
         return (
             <tr>
                 <td>
@@ -41,7 +28,7 @@ export default class TrackTableItem extends React.Component<TrackTableItemProps,
                 </td>
                 <td><span className="text-muted">{this.props.track.track_number}</span></td>
                 <td>{this.props.track.name}</td>
-                <td>{artistNames}</td>
+                <td><ArtistLinks artists={this.props.track.artists} /></td>
                 <td>{this.props.track.album?.name ?? "No album"}</td>
                 <td>{msToTimestamp(this.props.track.duration_ms)}</td>
                 <td><TrackDropDown track={this.props.track} /></td>
