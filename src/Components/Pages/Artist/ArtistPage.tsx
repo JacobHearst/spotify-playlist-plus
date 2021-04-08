@@ -7,7 +7,6 @@ import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import ArtistService from "../../../Services/ArtistService"
 import TrackTable from "../../Shared/TrackList/TrackTable"
-import SearchBar from "../../Shared/SearchBar"
 
 interface ArtistPageProps {
     match: match<{ id: string }>
