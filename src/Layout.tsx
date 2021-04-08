@@ -10,7 +10,6 @@ interface LayoutProps {
 }
 
 export default class Layout extends React.Component {
-
     render() {
         return (
             <AuthenticationContext.Consumer>
@@ -28,7 +27,9 @@ export default class Layout extends React.Component {
                                     </Col>
                                     <Col>
                                         <Navbar />
-                                        <Button size="sm" variant="info" onClick={() => context?.logOut()} className="float-right">Log out</Button>
+                                        <Button size="sm" variant="info" onClick={() => context?.logOut()} className="float-right">
+                                            Log out
+                                        </Button>
                                     </Col>
                                 </Row>
                                 <Row className="flex-grow-1">

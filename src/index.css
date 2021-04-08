@@ -17,12 +17,6 @@ code {
     justify-content: space-between;
 }
 
-.home-page,
-.search-container {
-    display: grid;
-    grid-template-columns: repeat(6, auto);
-}
-
 .search-bar {
     grid-column: 3 / 5;
 }
@@ -31,17 +25,26 @@ code {
     grid-column: 6;
 }
 
-.search-results-toggle__button {
-    text-align: center;
-    padding: 0;
+button.searchResultButton {
+    background-color: white;
+    color: black;
+    border: 0;
+}
+
+button.searchResultButton:hover {
+    background-color: grey;
 }
 
 #navbar {
-  padding: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  z-index: 1;
+    padding: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 1;
 }
 
 #left-content-container {
-  background-color: whitesmoke;
+    background-color: whitesmoke;
+}
+
+div.custom-control {
+    z-index: 0;
 }

@@ -11,12 +11,16 @@ export default class ArtistLinks extends React.Component<ArtistLinksProps, {}> {
         return this.props.artists.map((artist: any, index: number, array: any[]) => {
             if (index == array.length - 1) {
                 // Don't put a comma and space after the last artist
-                return <Link key={artist.id} to={`/artist/${artist.id}`}>{artist.name}</Link>
+                return (
+                    <Link key={artist.id} to={`/Artist/${artist.id}`}>
+                        {artist.name}
+                    </Link>
+                )
             }
 
             return (
                 <span key={artist.id}>
-                    <Link to={`/artist/${artist.id}`}>{artist.name}</Link>,&nbsp;
+                    <Link to={`/Artist/${artist.id}`}>{artist.name}</Link>,&nbsp;
                 </span>
             )
         })

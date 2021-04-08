@@ -11,7 +11,7 @@ export default function Navbar() {
                     Home
                 </Button>
             </Link>
-            <Link className="p-2" to={pageURL + "/AlbumPage"}>
+            <Link className="p-2" to={pageURL + "/Album"}>
                 <Button size="sm" variant="outline-primary">
                     Album Page
                 </Button>

@@ -1,29 +1,22 @@
 import React from "react"
-import { InputGroup, Dropdown, FormControl, Form } from "react-bootstrap"
+import { InputGroup, Dropdown, FormControl, Form, Modal, Button } from "react-bootstrap"
 import DropdownButton from "react-bootstrap/DropdownButton"
-import { GetSearchResults } from "../../Endpoints/Search"
-
-import Accordion from "react-bootstrap/Accordion"
-import Card from "react-bootstrap/Card"
-import { ArtistObject } from "../../Models/SpotifyObjects/ArtistObjects"
-import { SimplifiedAlbumObject } from "../../Models/SpotifyObjects/AlbumObjects"
-import { TrackObject } from "../../Models/SpotifyObjects/TrackObjects"
-import { SimplifiedPlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
-import { ResponseObjects, ResponseItems, SearchTypes } from "../../Models/Custom"
-import { createQuery } from "../../Services/SearchService"
+import SearchEndpoints from "../../Endpoints/Search"
+import { ResponseObjects, SearchTypes } from "../../Models/Custom"
+import { createQuery, getType } from "../../Services/SearchService"
+import { Link } from "react-router-dom"
 
 interface SearchBarProps {
     artist?: boolean
     playlist?: boolean
     track?: boolean
     album?: boolean
-    // eslint-disable-next-line no-unused-vars
-    onSearchSelect(item: ResponseObjects): void
 }
 
 interface SearchBarState {
-    items?: (ArtistObject | SimplifiedAlbumObject | TrackObject | SimplifiedPlaylistObject)[]
+    items?: ResponseObjects[]
     searchVal: string
+    showModal: boolean
     types: {
         artist: boolean
         playlist: boolean
@@ -38,6 +31,7 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
 
         this.state = {
             searchVal: "",
+            showModal: false,
             types: {
                 artist: props.artist ?? false,
                 playlist: props.playlist ?? false,
@@ -47,7 +41,6 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
         }
 
         this.search = this.search.bind(this)
-        this.onRecordSelect = this.onRecordSelect.bind(this)
     }
 
     search(e: React.KeyboardEvent): void {
@@ -58,29 +51,38 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
         const typesToSearch = Object.keys(this.state.types).filter((t) => this.state.types[t as SearchTypes])
         const searchVal = (e.target as HTMLInputElement).defaultValue
 
-        GetSearchResults(createQuery(searchVal, typesToSearch)).then((searchResponseItems) => {
+        SearchEndpoints.GetSearchResults(createQuery(searchVal, typesToSearch)).then((searchResponseItems) => {
             this.setState({
                 ...this.state,
                 items: searchResponseItems,
+                showModal: true,
             })
         })
     }
 
-    onRecordSelect(index: number): void {
-        this.props.onSearchSelect(this.state.items![index])
-    }
-
     render() {
-        const searchItems = this.state.items?.map((obj, i) => {
+        const pageURL = "/spotify-playlist-plus"
+
+        const searchItems = this.state.items?.map((item, i) => {
+            const type = getType(item)
+
             return (
                 <li key={i}>
-                    <button onClick={() => this.onRecordSelect(i)}>{obj.name}</button>
+                    <Link className="p-2" to={`${pageURL}/${type}/${item.id}`}>
+                        <Button
+                            className="searchResultButton"
+                            onClick={() => {
+                                this.setState({ ...this.state, showModal: false, searchVal: "" })
+                            }}>
+                            {`${type}: ${item.name}`}
+                        </Button>
+                    </Link>
                 </li>
             )
         })
 
         return (
-            <div className="search-bar">
+            <div>
                 <InputGroup>
                     <DropdownButton title="Filter" className="filter-dropdown">
                         <Dropdown.Divider></Dropdown.Divider>
@@ -129,16 +131,26 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
                         onChange={(e) => this.setState({ ...this.state, searchVal: e.target.value })}
                     />
                 </InputGroup>
-                <Accordion>
-                    <Card>
-                        <Accordion.Toggle as={Card.Header} className="search-results-toggle__button" eventKey="0" onSelect={() => {}}>
-                            &#10225;
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
-                            <ul>{searchItems}</ul>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
+                <Modal
+                    show={this.state.showModal}
+                    onHide={() => {
+                        this.setState({ ...this.state, showModal: false })
+                    }}>
+                    <Modal.Header>
+                        <Modal.Title>Search Results</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ul>{searchItems}</ul>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                this.setState({ ...this.state, showModal: false })
+                            }}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

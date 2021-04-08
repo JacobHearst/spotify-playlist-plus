@@ -20,14 +20,13 @@ export default class PlaylistList extends React.Component<{}, PlaylistListState>
         })
     }
 
-
     render() {
         return (
             <React.Fragment>
                 <h2>Playlists</h2>
                 <ListGroup>
                     {this.state.playlists.map((playlist) => (
-                        <Link key={playlist.id} to={`/spotify-playlist-plus/playlist/${playlist.id}`}>
+                        <Link key={playlist.id} to={`/spotify-playlist-plus/Playlist/${playlist.id}`}>
                             <ListGroup.Item>{playlist.name}</ListGroup.Item>
                         </Link>
                     ))}

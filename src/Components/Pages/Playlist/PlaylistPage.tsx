@@ -3,11 +3,9 @@ import { Container } from "react-bootstrap"
 import { RouteComponentProps } from "react-router"
 import PlaylistService from "../../../Services/PlaylistService"
 import { PlaylistObject, SimplifiedPlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
-import Navbar from "../../Shared/Navbar"
 import TrackTable from "../../Shared/TrackList/TrackTable"
 import PlaylistHeader from "./PlaylistHeader"
 import PlaylistZeroState from "./PlaylistZeroState"
-import SearchBar from "../../Shared/SearchBar"
 import { getRequest } from "../../../Endpoints/AxiosConfig"
 
 type PlaylistPageProps = RouteComponentProps<{ id: string }>
@@ -65,28 +63,17 @@ export default class PlaylistPage extends React.Component<PlaylistPageProps, Pla
     }
 
     render() {
-        let body
-
         if (!this.state.playlist) {
-            body = <PlaylistZeroState />
-        } else {
-            // Extract the TrackObjects from the PlaylistTrackObjects
-            const tracks = this.state.playlist?.tracks.map(({ track }) => track)
-            body = (
-                <div>
-                    <PlaylistHeader playlist={this.state.playlist} />
-                    <TrackTable tracks={tracks} />
-                </div>
-            )
+            return <PlaylistZeroState />
         }
+
+        // Extract the TrackObjects from the PlaylistTrackObjects
+        const tracks = this.state.playlist?.tracks.map(({ track }) => track)
 
         return (
             <Container fluid>
-                <Navbar />
-                <div className="search-container">
-                    <SearchBar onSearchSelect={this.onSearchSelect} playlist={true} />
-                </div>
-                {body}
+                <PlaylistHeader playlist={this.state.playlist} />
+                <TrackTable tracks={tracks} />
             </Container>
         )
     }
