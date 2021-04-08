@@ -53,7 +53,7 @@ exports[`PlaylistHeader should properly display playlist information when a play
       role="group"
     >
       <button
-        className="btn btn-success"
+        className="btn btn-info"
         disabled={true}
         type="button"
       >
@@ -62,7 +62,7 @@ exports[`PlaylistHeader should properly display playlist information when a play
       <button
         aria-expanded={false}
         aria-haspopup={true}
-        className="dropdown-toggle dropdown-toggle-split btn btn-success"
+        className="dropdown-toggle dropdown-toggle-split btn btn-info"
         disabled={false}
         onClick={[Function]}
         type="button"

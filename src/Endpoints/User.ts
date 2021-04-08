@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios"
 import { CursorPaginated, Paginated } from "../Models/Responses/Shared"
 import { SimplifiedPlaylistObject } from "../Models/SpotifyObjects/PlaylistObjects"
+import { PublicUserObject } from "../Models/SpotifyObjects/SharedObjects"
 import { SimplifiedTrackObject } from "../Models/SpotifyObjects/TrackObjects"
 import axiosInstance from "./AxiosConfig"
 
@@ -22,5 +23,9 @@ export default class UserEndpoints {
 
     static getPlaylists(): Promise<AxiosResponse<Paginated<SimplifiedPlaylistObject>>> {
         return axiosInstance.get<Paginated<SimplifiedPlaylistObject>>(`${baseURL}/playlists`)
+    }
+
+    static getCurrentUser() {
+        return axiosInstance.get<PublicUserObject>(baseURL)
     }
 }

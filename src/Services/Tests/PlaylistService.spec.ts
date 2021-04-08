@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios"
 import PlaylistEndpoints from "../../Endpoints/Playlists"
+import UserEndpoints from "../../Endpoints/User"
 import { GetPlaylistResponse } from "../../Models/Responses/PlaylistResponses"
 import { Paginated } from "../../Models/Responses/Shared"
 import { PlaylistObject, PlaylistTrackObject, SimplifiedPlaylistObject } from "../../Models/SpotifyObjects/PlaylistObjects"
@@ -13,6 +14,18 @@ describe("Playlist service", () => {
         id: "myUserId",
         images: [],
         display_name: "My User"
+    }
+
+    const mockPlaylist: PlaylistObject = {
+        description: "My description",
+        href: "https://spotify.com/",
+        id: "myPlaylistId",
+        images: [],
+        name: "My Playlist",
+        owner: mockUser,
+        public: true,
+        uri: ":spotify:uri:asdfasdf",
+        tracks: []
     }
 
     const mockTrack: PlaylistTrackObject = {
@@ -50,7 +63,7 @@ describe("Playlist service", () => {
                 config: {},
             }
 
-            const playlistPromise = new Promise<AxiosResponse<GetPlaylistResponse>>((resolve, reject) => {
+            const playlistPromise = new Promise<AxiosResponse<GetPlaylistResponse>>((resolve) => {
                 resolve(mockAxiosResponse)
             })
             PlaylistEndpoints.getPlaylistById = jest.fn(_ => playlistPromise)
@@ -71,6 +84,40 @@ describe("Playlist service", () => {
             console.error = jest.fn()
             PlaylistEndpoints.getPlaylistById = jest.fn(_ => mockPromise)
             PlaylistService.getPlaylist(mockPlaylistResponse.id).then(playlist => {
+                expect(playlist).toBeUndefined()
+                expect(console.error).toBeCalled()
+                done()
+            })
+        })
+    })
+
+    describe("createPlaylist", () => {
+        it("should return a PlaylistObject", (done) => {
+            const mockAxiosPlaylistResponse: AxiosResponse<PlaylistObject> = { data: mockPlaylist } as AxiosResponse<PlaylistObject>
+            const playlistPromise = new Promise<AxiosResponse<PlaylistObject>>((resolve) => resolve(mockAxiosPlaylistResponse))
+            PlaylistEndpoints.createPlaylist = jest.fn(_ => playlistPromise)
+
+            const mockAxiosUserResponse: AxiosResponse<PublicUserObject> = { data: mockUser } as AxiosResponse<PublicUserObject>
+            const userPromise = new Promise<AxiosResponse<PublicUserObject>>((resolve) => resolve(mockAxiosUserResponse))
+            UserEndpoints.getCurrentUser = jest.fn(()  => userPromise)
+
+            PlaylistService.createPlaylist(mockPlaylistResponse.id).then(playlist => {
+                expect(playlist).toMatchObject(mockPlaylist)
+                done()
+            })
+        })
+
+        it("should log an error and return undefined if an error occurs", (done) => {
+            const mockAxiosUserResponse: AxiosResponse<PublicUserObject> = { data: mockUser } as AxiosResponse<PublicUserObject>
+            const userPromise = new Promise<AxiosResponse<PublicUserObject>>((resolve) => resolve(mockAxiosUserResponse))
+            UserEndpoints.getCurrentUser = jest.fn(() => userPromise)
+
+            const mockPromise = new Promise<AxiosResponse<PlaylistObject>>((_, reject) => reject())
+            PlaylistEndpoints.createPlaylist = jest.fn(_ => mockPromise)
+
+            console.error = jest.fn()
+
+            PlaylistService.createPlaylist(mockPlaylistResponse.name).then(playlist => {
                 expect(playlist).toBeUndefined()
                 expect(console.error).toBeCalled()
                 done()

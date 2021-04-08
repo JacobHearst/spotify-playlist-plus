@@ -43,17 +43,20 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
             )
         }
 
-        const { name, description, owner, tracks } = this.props.playlist
+        const { name, description, owner, tracks, images } = this.props.playlist
+
+        const imageUrl = images.length > 0 ? images[0].url : "https://place-hold.it/250"
 
         let playlistLength = 0
         tracks.forEach(({ track }) => playlistLength += track.duration_ms)
+        const isEmpty = tracks.length == 0
 
         return (
             <Row style={{ marginBottom: 15 }}>
                 {/* Header */}
                 <Col xs="auto">
                     {/* Image size can be up to 640 by 640 */}
-                    <Image src={this.props.playlist.images[0].url} width={250} height={250} style={{ border: "1px solid black" }} />
+                    <Image src={imageUrl} width={250} height={250} style={{ border: "1px solid black" }} />
                 </Col>
                 <Col>
                     <h2>{name}</h2>
@@ -61,16 +64,16 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
                     <p>Owned by: {owner.display_name}</p>
                     <p>{tracks.length} Songs. {msToSentence(playlistLength)}</p>
                     <Dropdown as={ButtonGroup}>
-                        <Button variant="success" disabled>Play</Button>
+                        <Button variant="info" disabled>Play</Button>
 
-                        <Dropdown.Toggle split variant="success">
+                        <Dropdown.Toggle split variant="info">
                             <CaretDownFill/>
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
                             {/* Is this not just the same as sorting the playlist by intensity and playing it? Shuffle doesn't seem like the right word */}
-                            <Dropdown.Item onClick={() => this.playByIntensity()}>Play by intensity (increasing)</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.playByIntensity(true)}>Play by intensity (decreasing)</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.playByIntensity()} disabled={isEmpty}>Play by intensity (increasing)</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.playByIntensity(true)} disabled={isEmpty}>Play by intensity (decreasing)</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>

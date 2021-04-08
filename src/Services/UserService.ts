@@ -8,7 +8,6 @@ export default class UserService {
             const response = await UserEndpoints.getRecentTracks(limit, after, before)
             if (response) {
                 return response.data.items.map(({ track }) => {
-                    console.log(track)
                     return track
                 })
             }
