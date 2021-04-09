@@ -2,7 +2,7 @@ import React from "react"
 import { Button, ButtonGroup, Col, Dropdown, Image, Row } from "react-bootstrap"
 import PlayerEndpoints from "../../../Endpoints/Player"
 import TrackService from "../../../Services/TrackService"
-import {  CaretDownFill } from "react-bootstrap-icons"
+import { CaretDownFill } from "react-bootstrap-icons"
 import { AuthenticationContext } from "../../../Models/Authentication"
 import { PlaylistObject } from "../../../Models/SpotifyObjects/PlaylistObjects"
 import { msToSentence } from "../../../Services/Utility"
@@ -19,7 +19,7 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
     constructor(props: PlaylistHeaderProps) {
         super(props)
         this.state = {
-            ...props
+            ...props,
         }
 
         this.playByIntensity = this.playByIntensity.bind(this)
@@ -29,7 +29,7 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
         if (this.state.playlist && this.context.player) {
             const deviceId = this.context.player._options.id
             const tracks = this.state.playlist.tracks.map(({ track }) => track)
-            TrackService.intensitySort(tracks, decreasing).then(tracks => {
+            TrackService.intensitySort(tracks, decreasing).then((tracks) => {
                 const uris = tracks.map(({ uri }) => uri)
                 PlayerEndpoints.startResume(deviceId, uris)
             })
@@ -38,9 +38,7 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
 
     render() {
         if (!this.props.playlist) {
-            return (
-                <p>Loading</p>
-            )
+            return <p>Loading</p>
         }
 
         const { name, description, owner, tracks, images } = this.props.playlist
@@ -62,7 +60,9 @@ export default class PlaylistHeader extends React.Component<PlaylistHeaderProps,
                     <h2>{name}</h2>
                     <p>{description}</p>
                     <p>Owned by: {owner.display_name}</p>
-                    <p>{tracks.length} Songs. {msToSentence(playlistLength)}</p>
+                    <p>
+                        {tracks.length} Songs. {msToSentence(playlistLength)}
+                    </p>
                     <Dropdown as={ButtonGroup}>
                         <Button variant="info" disabled>Play</Button>
 

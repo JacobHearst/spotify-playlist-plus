@@ -61,7 +61,7 @@ export default class PlaylistList extends React.Component<{}, PlaylistListState>
                         </Form>
                     </ListGroup.Item>
                     {this.state.playlists.map((playlist) => (
-                        <Link key={playlist.id} to={`/spotify-playlist-plus/playlist/${playlist.id}`}>
+                        <Link key={playlist.id} to={`/spotify-playlist-plus/Playlist/${playlist.id}`}>
                             <ListGroup.Item>{playlist.name}</ListGroup.Item>
                         </Link>
                     ))}

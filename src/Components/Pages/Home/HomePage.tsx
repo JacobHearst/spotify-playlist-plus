@@ -14,12 +14,13 @@ export default class HomePage extends React.Component<{}, HomePageState> {
         UserService.getRecentTracks(10)
             .then((recentTracks) => {
                 this.setState({ ...this.state, recentTracks })
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 console.error(error)
             })
 
         this.state = {
-            recentTracks: []
+            recentTracks: [],
         }
     }
 
@@ -28,7 +29,10 @@ export default class HomePage extends React.Component<{}, HomePageState> {
             <Card key={track.id} className="p-3 m-3 d-inline-block">
                 <Card.Body>
                     <Card.Title>{track.name}</Card.Title>
-                    <Card.Text className="text-muted">By:&nbsp;<ArtistLinks artists={track.artists}/></Card.Text>
+                    <Card.Text className="text-muted">
+                        By:&nbsp;
+                        <ArtistLinks artists={track.artists} />
+                    </Card.Text>
                 </Card.Body>
             </Card>
         ))
@@ -36,7 +40,7 @@ export default class HomePage extends React.Component<{}, HomePageState> {
         return (
             <React.Fragment>
                 <h3>Recently listened to:</h3>
-                <div className="w-100" style={{overflowX: "auto"}}>
+                <div className="w-100" style={{ overflowX: "auto" }}>
                     {trackCards}
                 </div>
                 <hr />

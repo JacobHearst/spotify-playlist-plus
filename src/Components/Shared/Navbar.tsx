@@ -7,11 +7,15 @@ export default function Navbar() {
     return (
         <div className="float-right">
             <Link className="p-2" to={pageURL}>
-                <Button size="sm" variant="outline-primary">Home</Button>
+                <Button size="sm" variant="outline-primary">
+                    Home
+                </Button>
             </Link>
-            <Link className="p-2" to={pageURL+"/AlbumPage"}>
-                <Button size="sm" variant="outline-primary">Album Page</Button>
+            <Link className="p-2" to={pageURL + "/Album"}>
+                <Button size="sm" variant="outline-primary">
+                    Album Page
+                </Button>
             </Link>
-        </div>      
+        </div>
     )
 }

@@ -1,3 +1,8 @@
+import { ArtistObject } from "../SpotifyObjects/ArtistObjects"
+import { SimplifiedAlbumObject } from "../SpotifyObjects/AlbumObjects"
+import { TrackObject } from "../SpotifyObjects/TrackObjects"
+import { SimplifiedPlaylistObject } from "../SpotifyObjects/PlaylistObjects"
+
 export interface Paginated<T> {
     href: string
     items: T[]
@@ -6,6 +11,13 @@ export interface Paginated<T> {
     offset: number
     previous?: string
     total: number
+}
+
+export interface SearchResponse {
+    artists?: Paginated<ArtistObject>
+    albums?: Paginated<SimplifiedAlbumObject>
+    tracks?: Paginated<TrackObject>
+    playlists?: Paginated<SimplifiedPlaylistObject>
 }
 
 export interface CursorPaginated<T> {
