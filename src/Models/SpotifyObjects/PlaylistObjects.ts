@@ -1,4 +1,4 @@
-import { ImageObject, PublicUserObject } from "./SharedObjects"
+import { ImageObject, PublicUserObject } from "./SharedObjects";
 import { TrackObject } from "./TrackObjects"
 
 /**
@@ -6,7 +6,7 @@ import { TrackObject } from "./TrackObjects"
  */
 
 export interface PlaylistObject {
-    description: string
+    description?: string
     href: string
     id: string
     images: ImageObject[]
@@ -29,7 +29,7 @@ export interface SimplifiedPlaylistObject {
     href: string
     id: string
     images: ImageObject[]
-    name: String
+    name: string
     owner: PublicUserObject
     public: boolean
     tracks: PlaylistTracksRefObject
@@ -37,6 +37,6 @@ export interface SimplifiedPlaylistObject {
 }
 
 export interface PlaylistTracksRefObject {
-    ref: string
+    href: string
     total: number
 }

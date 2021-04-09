@@ -16,6 +16,7 @@ import Switch from "react-bootstrap/esm/Switch"
 import { Container, Row, Col, Button } from "react-bootstrap"
 import PlaylistList from "./Components/Shared/PlaylistList"
 import Navbar from "./Components/Shared/Navbar"
+import SearchBar from "./Components/Shared/SearchBar"
 
 export default class App extends React.Component<{}, AuthenticationContextObject> {
     constructor(props: {}) {
@@ -61,9 +62,11 @@ export default class App extends React.Component<{}, AuthenticationContextObject
         const pageURL = "/spotify-playlist-plus"
 
         if (!this.state.authToken) {
-            return <AuthenticationContext.Provider value={this.state}>
-                <LandingPage />
-            </AuthenticationContext.Provider>
+            return (
+                <AuthenticationContext.Provider value={this.state}>
+                    <LandingPage />
+                </AuthenticationContext.Provider>
+            )
         }
 
         return (
@@ -76,8 +79,13 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                                     <b>Spotify Playlist+</b>
                                 </Col>
                                 <Col>
+                                    <SearchBar artist={true} playlist={true} track={true} album={true}></SearchBar>
+                                </Col>
+                                <Col>
                                     <Navbar />
-                                    <Button size="sm" variant="info" onClick={this.state.logOut} className="float-right">Log out</Button>
+                                    <Button size="sm" variant="info" onClick={this.state.logOut} className="float-right">
+                                        Log out
+                                    </Button>
                                 </Col>
                             </Row>
                             <Row className="flex-grow-1">
@@ -87,16 +95,15 @@ export default class App extends React.Component<{}, AuthenticationContextObject
                                 <Col md="9" className="no-float pt-3">
                                     <Switch>
                                         <Route exact path={pageURL} component={HomePage} />
-                                        <Route exact path={pageURL + "/AlbumPage"} component={AlbumPage} />
-                                        <Route path={pageURL + "/artist/:id"} component={ArtistPage} />
-                                        <Route path={pageURL + "/playlist/:id"} component={PlaylistPage} />
+                                        <Route exact path={pageURL + "/Album"} component={AlbumPage} />
+                                        <Route path={pageURL + "/Artist/:id"} component={ArtistPage} />
+                                        <Route path={pageURL + "/Playlist/:id"} component={PlaylistPage} />
                                     </Switch>
                                 </Col>
                             </Row>
                         </div>
                     </Container>
                 </Router>
-
             </AuthenticationContext.Provider>
         )
     }

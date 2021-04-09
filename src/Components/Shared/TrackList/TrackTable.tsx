@@ -46,7 +46,6 @@ export default class TrackTable extends React.Component<TrackTableProps, TrackTa
                 </thead>
                 <tbody>
                     {this.props.tracks!.map((track, index) => {
-                        console.log(track.name)
                         return (
                             <TrackTableItem
                                 key={`${track.id}-${index}`}
