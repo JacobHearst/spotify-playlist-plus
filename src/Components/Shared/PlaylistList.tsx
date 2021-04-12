@@ -30,7 +30,7 @@ export default class PlaylistList extends React.Component<{}, PlaylistListState>
             if (newPlaylist) {
                 const simplifiedPlaylist: SimplifiedPlaylistObject = {
                     ...newPlaylist,
-                    tracks: { total: 0, ref: "" },
+                    tracks: { total: 0, href: "" },
                     collaborative: false
                 }
                 const playlists = [simplifiedPlaylist, ...this.state.playlists]
