@@ -3,10 +3,12 @@ import { Badge, Col, Dropdown, Image, Row } from "react-bootstrap"
 import { Container } from "react-bootstrap"
 import { ThreeDotsVertical } from "react-bootstrap-icons"
 import { match } from "react-router-dom"
+import { SimplifiedAlbumObject } from "../../../Models/SpotifyObjects/AlbumObjects"
 import { ArtistObject } from "../../../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../../../Models/SpotifyObjects/TrackObjects"
 import ArtistService from "../../../Services/ArtistService"
 import TrackTable from "../../Shared/TrackList/TrackTable"
+import ArtistAlbumList from "./ArtistAlbums"
 
 interface ArtistPageProps {
     match: match<{ id: string }>
@@ -16,6 +18,7 @@ interface ArtistPageState {
     artist?: ArtistObject
     topTracks?: TrackObject[]
     artistId: string
+    albums?: SimplifiedAlbumObject[]
 }
 
 export default class ArtistPage extends React.Component<ArtistPageProps, ArtistPageState> {
@@ -24,6 +27,8 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
         this.state = {
             artistId: props.match.params.id,
         }
+
+        console.log("Constructed artist page")
 
         this.loadArtist = this.loadArtist.bind(this)
         this.loadTopTracks = this.loadTopTracks.bind(this)
@@ -86,39 +91,41 @@ export default class ArtistPage extends React.Component<ArtistPageProps, ArtistP
             ))
 
             body = (
-                <div>
-                    {coverImage ? <Image src={coverImage.url} /> : <p>Loading Image</p>}
-                    <Row>
-                        <Col as={"h2"} xs={"auto"}>
-                            {name}
+                <React.Fragment>
+                    <Row className="mb-3">
+                        <Col sm="3" className="mr-4">
+                            {coverImage ? <Image src={coverImage.url} /> : <p>Loading Image</p>}
                         </Col>
                         <Col>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="Secondary">
-                                    <ThreeDotsVertical />
-                                </Dropdown.Toggle>
+                            <Row>
+                                <Col as={"h2"} xs={"auto"}>
+                                    {name}
+                                </Col>
+                                <Col>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="Secondary">
+                                            <ThreeDotsVertical />
+                                        </Dropdown.Toggle>
 
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href={this.state.artist.uri}>Open in Spotify</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item href={this.state.artist.uri}>Open in Spotify</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col as={"p"}>Genres: {genreBadges}</Col>
+                            </Row>
+                            <Row>
+                                <Col as={"p"}> Popularity: {popularity}th Percentile </Col>
+                            </Row>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col as={"p"}>Genres: {genreBadges}</Col>
-                    </Row>
-                    <Row>
-                        <Col as={"p"}> Popularity: {popularity}th Percentile </Col>
-                    </Row>
-                    <Row>
-                        <Col as={"h3"}>Top Tracks</Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <TrackTable tracks={this.state.topTracks} />
-                        </Col>
-                    </Row>
-                </div>
+                    <h3>Top Tracks</h3>
+                    <TrackTable tracks={this.state.topTracks} />
+                    <hr />
+                    <ArtistAlbumList artist={this.state.artist} />
+                </React.Fragment>
             )
         }
 
