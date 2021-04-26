@@ -1,3 +1,5 @@
+import { Paginated } from "../Models/Responses/Shared"
+import { SimplifiedAlbumObject } from "../Models/SpotifyObjects/AlbumObjects"
 import { ArtistObject } from "../Models/SpotifyObjects/ArtistObjects"
 import { TrackObject } from "../Models/SpotifyObjects/TrackObjects"
 import axiosInstance from "./AxiosConfig"
@@ -20,5 +22,9 @@ export default class ArtistEndpoints {
         } catch (error) {
             console.error(`Failed to get top tracks for artist with id: "${id}. Error: ${error}`)
         }
+    }
+
+    static getArtistAlbums(id: string) {
+        return axiosInstance.get<Paginated<SimplifiedAlbumObject>>(`${baseURL}/${id}/albums?include_groups=album,single&market=US`)
     }
 }

@@ -20,4 +20,10 @@ export default class ArtistService {
 
         return response.data.tracks
     }
+
+    static async getArtistAlbums(id: string) {
+        return ArtistEndpoints.getArtistAlbums(id)
+            .then(({ data: { items }}) => items)
+            .catch((reason) => console.error(`Failed to get albums for artist with id: '${id}'. ${reason}`))
+    }
 }
