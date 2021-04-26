@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/spotify-playlist-plus/static/css/main.e66b0595.chunk.css",
-    "main.js": "/spotify-playlist-plus/static/js/main.e0da48c2.chunk.js",
-    "main.js.map": "/spotify-playlist-plus/static/js/main.e0da48c2.chunk.js.map",
-    "runtime-main.js": "/spotify-playlist-plus/static/js/runtime-main.2f17b5d5.js",
-    "runtime-main.js.map": "/spotify-playlist-plus/static/js/runtime-main.2f17b5d5.js.map",
+    "main.js": "/spotify-playlist-plus/static/js/main.1c55a76d.chunk.js",
+    "main.js.map": "/spotify-playlist-plus/static/js/main.1c55a76d.chunk.js.map",
+    "runtime-main.js": "/spotify-playlist-plus/static/js/runtime-main.f07a3b85.js",
+    "runtime-main.js.map": "/spotify-playlist-plus/static/js/runtime-main.f07a3b85.js.map",
     "static/css/2.150d169a.chunk.css": "/spotify-playlist-plus/static/css/2.150d169a.chunk.css",
-    "static/js/2.c398aa5a.chunk.js": "/spotify-playlist-plus/static/js/2.c398aa5a.chunk.js",
-    "static/js/2.c398aa5a.chunk.js.map": "/spotify-playlist-plus/static/js/2.c398aa5a.chunk.js.map",
-    "static/js/3.60f11c49.chunk.js": "/spotify-playlist-plus/static/js/3.60f11c49.chunk.js",
-    "static/js/3.60f11c49.chunk.js.map": "/spotify-playlist-plus/static/js/3.60f11c49.chunk.js.map",
+    "static/js/2.1c46c86c.chunk.js": "/spotify-playlist-plus/static/js/2.1c46c86c.chunk.js",
+    "static/js/2.1c46c86c.chunk.js.map": "/spotify-playlist-plus/static/js/2.1c46c86c.chunk.js.map",
+    "static/js/3.3c731f3f.chunk.js": "/spotify-playlist-plus/static/js/3.3c731f3f.chunk.js",
+    "static/js/3.3c731f3f.chunk.js.map": "/spotify-playlist-plus/static/js/3.3c731f3f.chunk.js.map",
     "index.html": "/spotify-playlist-plus/index.html",
     "static/css/2.150d169a.chunk.css.map": "/spotify-playlist-plus/static/css/2.150d169a.chunk.css.map",
     "static/css/main.e66b0595.chunk.css.map": "/spotify-playlist-plus/static/css/main.e66b0595.chunk.css.map",
-    "static/js/2.c398aa5a.chunk.js.LICENSE.txt": "/spotify-playlist-plus/static/js/2.c398aa5a.chunk.js.LICENSE.txt"
+    "static/js/2.1c46c86c.chunk.js.LICENSE.txt": "/spotify-playlist-plus/static/js/2.1c46c86c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.2f17b5d5.js",
+    "static/js/runtime-main.f07a3b85.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.c398aa5a.chunk.js",
+    "static/js/2.1c46c86c.chunk.js",
     "static/css/main.e66b0595.chunk.css",
-    "static/js/main.e0da48c2.chunk.js"
+    "static/js/main.1c55a76d.chunk.js"
   ]
 }
